@@ -52,4 +52,4 @@ final = data_prep(query("hospital"))
 #final.to_excel("output_data3.xlsx")
 #print(final.info())
 #print(final)
-#hospital, shop, biergarten
+#hospital, shop, biergarten .
