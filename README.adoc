@@ -8,5 +8,4 @@ Our recent steps are the following:
 .. Try to integrate 3 instead of 1 amenities/ building-types into the code.
 
 . *Visualization:*
-.. 
-.. 
+.. create dataframe which has all points (box around Duesseldorf) 
