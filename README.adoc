@@ -1,12 +1,6 @@
 = 15-Minute-Cities (Group 4 Project 10)
 
 Project from the Digital Shaper program is worked on by *Group 4*
-Our recent steps are the following:
 
-. *Data collection:*
-.. Solve problem with ways/ nodes/ relations.
-.. Try to integrate 3 instead of 1 amenities/ building-types into the code.
-
-. *Visualization:*
-.. create dataframe which has all points (box around Duesseldorf) 
+Trello-Board: https://trello.com/b/B3Dr38te/15-min-city
 
