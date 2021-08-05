@@ -44,32 +44,31 @@ def data_prep(df):
     assert df_global_reduced_float["longitude"].dtype == "float"
     return df_global_reduced_float
 
-amenities = ["hospital","bar"]
+amenities = ["hospital","bar","biergarten"]
 dfObj = []
 df1 = pd.Series([""])
 for x in amenities:
     df2= pd.Series([""])
     df2 = data_prep(query(x))
     print(df2)
-
-    #df.columns = [''] * len(df.columns)
-    #dfObj.append(df)
     df1 = pd.concat([df1,df2])
-    time.sleep(2)
+    time.sleep(5)
 
-#pd.concat([s1, s2], ignore_index=True)
-#df8 = df8.append([s] * 2, ignore_index=True)
-#df_final = pd.DataFrame(dfObj)
+
 dfshort = df1[["name","latitude","longitude"]]
+dfshort = dfshort.iloc[1:,:]
 
-#surveys_df.loc[0, ['species_id', 'plot_id', 'weight']]
 dfshort.set_index("name",inplace=True)
 print(dfshort)
 
+
+#surveys_df.loc[0, ['species_id', 'plot_id', 'weight']]
+# df.columns = [''] * len(df.columns)
+# dfObj.append(df)
+#pd.concat([s1, s2], ignore_index=True)
+#df8 = df8.append([s] * 2, ignore_index=True)
+#df_final = pd.DataFrame(dfObj)
 #print(df1)
-
-
-
 #final = data_prep(query("hospital"))
 #final.to_excel("output_data3.xlsx")
 #print(final.info())
