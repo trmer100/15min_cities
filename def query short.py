@@ -3,18 +3,12 @@
 import overpy
 import pandas as pd
 
-#latitude = "51.2227"
-#longitude = "6.7735"
-#search_radius = "15000"
-#building_type = "hospital"
 
-def query(latitude, longitude, search_radius, building_type):
-    part1 = '[out:json][timeout:50];(node["amenity"="'
+def query(building_type):
+    part1 = '[out:json][timeout:50];nwr(51.12129, 6.66877,51.36930, 6.96128)[amenity="'
     part2 = building_type
-    part3 = '"](around:'
-    part4 = '););out body;>;out skel qt;'
-    q = search_radius + ',' + latitude + ',' + longitude  # (search_radius,latitude,longitude)
-    built_query = part1 + part2 + part3 + q + part4  # arrange  to form query
+    part3 = '"];out center;'
+    built_query = part1 + part2 + part3
     print(built_query)
 
     api = overpy.Overpass()  # overpy API
@@ -25,6 +19,16 @@ def query(latitude, longitude, search_radius, building_type):
         node.tags['longitude'] = node.lon
         node.tags['id'] = node.id
         list_of_node_tags.append(node.tags)
+    for way in result.ways:  # get tags information from each node
+        way.tags['id'] = way.id
+        way.tags['latitude'] = way.center_lat
+        way.tags['longitude'] = way.center_lon
+        list_of_node_tags.append(way.tags)
+    for relation in result.relations:  # get tags information from each node
+        relation.tags['id'] = relation.id
+        relation.tags['latitude'] = relation.center_lat
+        relation.tags['longitude'] = relation.center_lon
+        list_of_node_tags.append(relation.tags)
     data_frame = pd.DataFrame(list_of_node_tags)  # forming a pandas dataframe using list of dictionaries
     return data_frame
 
@@ -39,8 +43,13 @@ def data_prep(df):
     assert df_global_reduced_float["longitude"].dtype == "float"
     return df_global_reduced_float
 
-df = data_prep(query("51.2227", "6.7735", "15000","biergarten"))
-df.to_excel("output_data3.xlsx")
-print(df.info())
-print(df)
-#blablabla
+#amenities = ["hospital","fuel","biergarten"]
+#for x in amenities:
+#    data_prep(query(x))
+
+final = data_prep(query("hospital"))
+
+#final.to_excel("output_data3.xlsx")
+#print(final.info())
+#print(final)
+#hospital, shop, biergarten
