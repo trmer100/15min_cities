@@ -43,5 +43,3 @@ df = data_prep(query("51.2227", "6.7735", "15000","biergarten"))
 df.to_excel("output_data3.xlsx")
 print(df.info())
 print(df)
-
-#test1234wowasdf
