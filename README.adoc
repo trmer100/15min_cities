@@ -1,4 +1,4 @@
-= 5-Minute-Cities (Group 4 Project 10)
+= 15-Minute-Cities (Group 4 Project 10)
 
 Project from the Digital Shaper program is worked on by *Group 4*
 Our recent steps are the following:
