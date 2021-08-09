@@ -31,3 +31,7 @@ Tgrid = (list(grid))
 
 print(Tgrid)
 
+#our 15 minutes coordinate distance
+# 51.22960797590307, 6.847133713714345
+#51.235690529815805, 6.857753588940877
+

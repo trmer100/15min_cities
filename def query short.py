@@ -10,6 +10,12 @@ def query(building_type):
     part3 = '"];out center;'
     built_query = part1 + part2 + part3
     print(built_query)
+   # UL = ('51.3538', '6.6824')
+   # UR = ('51.3538', '6.9398')
+   # LL = ('51.1238', '6.6824')
+   # LR = ('51.1238', '6.9398')
+
+
 
     api = overpy.Overpass()  # overpy API
     result = api.query(built_query)  # API which is send to overpass
@@ -43,7 +49,7 @@ def data_prep(df):
     assert df_global_reduced_float["longitude"].dtype == "float"
     return df_global_reduced_float
 
-amenities = ["hospital","bar"]
+amenities = ["biergarten","hospital","bar",]
 dfObj = []
 df1 = pd.Series([""])
 for x in amenities:
@@ -52,7 +58,7 @@ for x in amenities:
     df2["amenity"] = pd.Series([x for g in range(len(df2.index))])
     print(df2)
     df1 = pd.concat([df1,df2])
-    time.sleep(5)
+    time.sleep(1)
 
 
 dfshort = df1[["amenity","latitude","longitude"]]
