@@ -44,21 +44,22 @@ def data_prep(df):
     assert df_global_reduced_float["longitude"].dtype == "float"
     return df_global_reduced_float
 
-amenities = ["hospital","bar","biergarten"]
+amenities = ["hospital","bar"]
 dfObj = []
 df1 = pd.Series([""])
 for x in amenities:
     df2= pd.Series([""])
     df2 = data_prep(query(x))
+    df2["amenity"] = pd.Series([x for g in range(len(df2.index))])
     print(df2)
     df1 = pd.concat([df1,df2])
     time.sleep(5)
 
 
-dfshort = df1[["name","latitude","longitude"]]
+dfshort = df1[["amenity","latitude","longitude"]]
 dfshort = dfshort.iloc[1:,:]
 
-dfshort.set_index("name",inplace=True)
+dfshort.set_index("amenity",inplace=True)
 print(dfshort)
 
 
