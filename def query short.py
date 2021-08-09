@@ -4,7 +4,6 @@ import overpy
 import pandas as pd
 import time
 
-#wer das liest ist dooooof
 def query(building_type):
     part1 = '[out:json][timeout:50];nwr(51.12129, 6.66877,51.36930, 6.96128)[amenity="'
     part2 = building_type
