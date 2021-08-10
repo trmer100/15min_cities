@@ -5,7 +5,7 @@ import pandas as pd
 import time
 
 def query(building_type):
-    part1 = '[out:json][timeout:50];nwr(51.12129, 6.66877,51.36930, 6.96128)[amenity="'
+    part1 = '[out:json][timeout:50];nwr(51.1238, 6.6824,51.3538, 6.9398)[amenity="'
     part2 = building_type
     part3 = '"];out center;'
     built_query = part1 + part2 + part3
@@ -49,16 +49,18 @@ def data_prep(df):
     assert df_global_reduced_float["longitude"].dtype == "float"
     return df_global_reduced_float
 
-amenities = ["biergarten","hospital","bar",]
-dfObj = []
-df1 = pd.Series([""])
+amenities = ["biergarten","hospital","bar","townhall","toilets"] #insert the amenities here
+
+
+dfObj = [] #empty df which is used for storing the data from the for loop below
+df1 = pd.Series([""]) #empty series to use "concat" in the for loop
 for x in amenities:
     df2= pd.Series([""])
     df2 = data_prep(query(x))
     df2["amenity"] = pd.Series([x for g in range(len(df2.index))])
     print(df2)
     df1 = pd.concat([df1,df2])
-    time.sleep(1)
+    time.sleep(20) #sleep timer to avoid "too many requests at the server"
 
 
 dfshort = df1[["amenity","latitude","longitude"]]
@@ -66,18 +68,3 @@ dfshort = dfshort.iloc[1:,:]
 
 dfshort.set_index("amenity",inplace=True)
 print(dfshort)
-
-
-#surveys_df.loc[0, ['species_id', 'plot_id', 'weight']]
-# df.columns = [''] * len(df.columns)
-# dfObj.append(df)
-#pd.concat([s1, s2], ignore_index=True)
-#df8 = df8.append([s] * 2, ignore_index=True)
-#df_final = pd.DataFrame(dfObj)
-#print(df1)
-#final = data_prep(query("hospital"))
-#final.to_excel("output_data3.xlsx")
-#print(final.info())
-#print(final)
-#final.d
-#hospital, shop, biergarten .
