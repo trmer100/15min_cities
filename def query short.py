@@ -49,7 +49,7 @@ def data_prep(df):
     assert df_global_reduced_float["longitude"].dtype == "float"
     return df_global_reduced_float
 
-amenities = ["biergarten","hospital","bar","townhall","toilets"] #insert the amenities here
+amenities = ["hospital","school"] #insert the amenities here
 
 
 dfObj = [] #empty df which is used for storing the data from the for loop below
