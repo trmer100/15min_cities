@@ -4,4 +4,17 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 
-st.title('My first app')
+
+df= pd.read_excel('C:/Users/jklue/OneDrive/Desktop/output_data3.xlsx')
+print(df)
+print(df[df.amenity.isin(["hospital"])])
+#st.write(df)
+#st.map(df[df.amenity.isin(["hospital"])])
+#st.write(df[df.amenity.isin(["hospital"])])
+
+if st.checkbox("hospital"):
+    st.map(df[df.amenity.isin(["hospital"])])
+
+
+if st.checkbox("fuel"):
+    st.map(df[df.amenity.isin(["fuel"])])
