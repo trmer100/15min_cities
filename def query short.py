@@ -66,5 +66,6 @@ for x in amenities:
 dfshort = df1[["amenity","latitude","longitude"]]
 dfshort = dfshort.iloc[1:,:]
 
-dfshort.set_index("amenity",inplace=True)
+#dfshort.set_index("amenity",inplace=True)
 print(dfshort)
+dfshort.to_csv("output_data3.csv")
