@@ -1,8 +1,8 @@
-    df = "https://raw.githubusercontent.com/trmer100/15min_cities/main/output_data55.csv"
-print(df)
+dfa = "https://raw.githubusercontent.com/trmer100/15min_cities/main/output_dfsoloa.csv"
+dfb = "https://raw.githubusercontent.com/trmer100/15min_cities/main/output_dfsolob.csv"
 
 
-def map(df):
+def map():
     import streamlit as st
     import pandas as pd
     import pydeck as pdk
@@ -10,7 +10,6 @@ def map(df):
     from urllib.error import URLError
 
     try:
-        st.write(df)
         ALL_LAYERS = {
             #"Hospitals": pdk.Layer(
             #    "HexagonLayer",
@@ -23,7 +22,7 @@ def map(df):
             #),
             "Schools": pdk.Layer(
                 "ScatterplotLayer",
-                data = df,
+                data = dfa,
                 get_position=["longitude", "latitude"],
                 get_color=[200, 30, 0, 160],
                 get_radius=1000,
@@ -31,7 +30,7 @@ def map(df):
             ),
             "Hospitals": pdk.Layer(
                 "ScatterplotLayer",
-                data=df,
+                data=dfb,
                 get_position=["longitude", "latitude"],
                 get_color=[100, 20, 0, 160],
                 get_radius=1000,
@@ -75,4 +74,4 @@ def map(df):
             Connection error: %s
         """ % e.reason)
 
-map(df)
+map()
