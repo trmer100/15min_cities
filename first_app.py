@@ -1,31 +1,5 @@
-import streamlit as st
-import numpy as np
-import pandas as pd
-
-#asdasd
-#df1= pd.read_csv('C:/Users/jklue/OneDrive/Desktop/output_data4.csv')
-#df = df1[["longitude","latitude"]]
-#df = df.to_numpy()
-#df = 'https://raw.githubusercontent.com/visgl/deck.gl-data/master/examples/3d-heatmap/heatmap-data.csv'
-df = "https://raw.githubusercontent.com/trmer100/15min_cities/main/output_data55.csv"
-#df = pd.read_csv("https://raw.githubusercontent.com/visgl/deck.gl-data/master/examples/3d-heatmap/heatmap-data.csv")
-#print(UK_ACCIDENTS_DATA)
+    df = "https://raw.githubusercontent.com/trmer100/15min_cities/main/output_data55.csv"
 print(df)
-#print(df1)
-#df = df1[["longitude","latitude"]]
-#print(df)
-#print(df)
-#print(df[df.amenity.isin(["hospital"])])
-#st.write(df)
-#st.map(df[df.amenity.isin(["hospital"])])
-#st.write(df[df.amenity.isin(["hospital"])])
-
-#if st.checkbox("hospital"):
- #   st.map(df[df.amenity.isin(["hospital"])])
-
-
-#if st.checkbox("fuel"):
- #   st.map(df[df.amenity.isin(["fuel"])])
 
 
 def map(df):
@@ -49,7 +23,7 @@ def map(df):
             #),
             "Schools": pdk.Layer(
                 "ScatterplotLayer",
-                data=df,
+                data = df,
                 get_position=["longitude", "latitude"],
                 get_color=[200, 30, 0, 160],
                 get_radius=1000,
@@ -102,5 +76,3 @@ def map(df):
         """ % e.reason)
 
 map(df)
-
-ssss

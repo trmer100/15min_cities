@@ -60,7 +60,7 @@ for x in amenities:
     df2["amenity"] = pd.Series([x for g in range(len(df2.index))])
     print(df2)
     df1 = pd.concat([df1,df2])
-    time.sleep(20) #sleep timer to avoid "too many requests at the server"
+    time.sleep(1) #sleep timer to avoid "too many requests at the server"
 
 
 dfshort = df1[["amenity","latitude","longitude"]]
@@ -68,4 +68,11 @@ dfshort = dfshort.iloc[1:,:]
 
 dfshort.set_index("amenity",inplace=True)
 print(dfshort)
-dfshort.to_csv("output_data3.csv")
+#dfsoloa = dfshort.filter(like="hospital",axis = 0)
+#dfsolob = dfshort.filter(like="school",axis = 0)
+#dfsoloa = dfshort[["hospital"]]
+#dfsolob = dfshort[["school"]]
+#print(dfsoloa)
+#print(dfsolob)
+#dfsoloa.to_csv("output_dfsoloa.csv")
+#dfsolob.to_csv("output_dfsolob.csv")
