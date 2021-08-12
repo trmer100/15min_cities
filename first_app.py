@@ -1,20 +1,18 @@
+
 import streamlit as st
-# To make things easier later, we're also importing numpy and pandas for
-# working with sample data.
-import numpy as np
-import pandas as pd
 
-
-df= pd.read_excel('C:/Users/jklue/OneDrive/Desktop/output_data3.xlsx')
-print(df)
-print(df[df.amenity.isin(["hospital"])])
-#st.write(df)
-#st.map(df[df.amenity.isin(["hospital"])])
-#st.write(df[df.amenity.isin(["hospital"])])
-
-if st.checkbox("hospital"):
-    st.map(df[df.amenity.isin(["hospital"])])
-
-
-if st.checkbox("fuel"):
-    st.map(df[df.amenity.isin(["fuel"])])
+import pydeck
+# 2014 location of car accidents in the UK
+UK_ACCIDENTS_DATA = ('https://raw.githubusercontent.com/uber-common/'
+                    'deck.gl-data/master/examples/3d-heatmap/heatmap-data.csv')
+# Define a layer to display on a map
+layer = pydeck.Layer(
+    'HexagonLayer',
+    UK_ACCIDENTS_DATA,
+    get_position=['lng', 'lat'],
+    auto_highlight=True,
+    elevation_scale=50,
+    pickable=True,
+    elevation_range=[0, 3000],
+    extruded=True,
+    coverage=1)
