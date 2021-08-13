@@ -5,15 +5,13 @@ import pandas as pd
 
 
 dfcsv= pd.read_csv('C:/Users/jklue/OneDrive/Desktop/output_data55.csv')
-dfschool = dfcsv[dfcsv["amenity"] == "school"]
-dfhospital = dfcsv[dfcsv["amenity"] == "hospital"]
 
 def map():
     try:
         ALL_LAYERS = {
             "Hospital": pdk.Layer(
                 "ScatterplotLayer",
-                data=dfschool,
+                data=dfcsv[dfcsv["amenity"] == "school"],
                 get_position=["longitude", "latitude"],
                 get_color=[200, 30, 0, 160],
                 get_radius=1000,
@@ -21,7 +19,7 @@ def map():
             ),
             "School": pdk.Layer(
                 "ScatterplotLayer",
-                data=dfhospital,
+                data=dfcsv[dfcsv["amenity"] == "hospital"],
                 get_position=["longitude", "latitude"],
                 get_color=[100, 20, 0, 160],
                 get_radius=1000,
