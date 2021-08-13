@@ -68,6 +68,9 @@ dfshort = dfshort.iloc[1:,:]
 
 dfshort.set_index("amenity",inplace=True)
 print(dfshort)
+
+
+
 #dfsoloa = dfshort.filter(like="hospital",axis = 0)
 #dfsolob = dfshort.filter(like="school",axis = 0)
 #dfsoloa = dfshort[["hospital"]]
