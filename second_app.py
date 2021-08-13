@@ -1,17 +1,19 @@
 import streamlit as st
 import pydeck as pdk
 from urllib.error import URLError
+import pandas as pd
 
 
-dfa = "https://raw.githubusercontent.com/trmer100/15min_cities/main/output_dfsoloa.csv"
-dfb = "https://raw.githubusercontent.com/trmer100/15min_cities/main/output_dfsolob.csv"
+dfcsv= pd.read_csv('C:/Users/jklue/OneDrive/Desktop/output_data55.csv')
+dfschool = dfcsv[dfcsv["amenity"] == "school"]
+dfhospital = dfcsv[dfcsv["amenity"] == "hospital"]
 
 def map():
     try:
         ALL_LAYERS = {
             "Hospital": pdk.Layer(
                 "ScatterplotLayer",
-                data=dfa,
+                data=dfschool,
                 get_position=["longitude", "latitude"],
                 get_color=[200, 30, 0, 160],
                 get_radius=1000,
@@ -19,7 +21,7 @@ def map():
             ),
             "School": pdk.Layer(
                 "ScatterplotLayer",
-                data=dfb,
+                data=dfhospital,
                 get_position=["longitude", "latitude"],
                 get_color=[100, 20, 0, 160],
                 get_radius=1000,
@@ -45,7 +47,7 @@ def map():
     except URLError as e:
         st.error("""Connection error: %s""" % e.reason)
 
-st.write("15-Minute-City - seperate dataframes")
+st.write("15-Minute-City-all in one dataframe")
 map()
 
 
