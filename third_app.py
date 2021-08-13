@@ -7,8 +7,9 @@ import pandas as pd
 dfcsv= pd.read_csv('C:/Users/jklue/OneDrive/Desktop/output_data55.csv')
 amenities = ["school","hospital"]
 def map():
-    for x in amenities:
-        try:
+
+    try:
+        for x in amenities:
             ALL_LAYERS = {
                 x: pdk.Layer(
                     "ScatterplotLayer",
@@ -19,7 +20,7 @@ def map():
                     radius_scale=0.05,
                 ),
             }
-            st.sidebar.markdown('### Map Layers')
+            st.sidebar.markdown('### Amenities')
             selected_layers = [
                 layer for layer_name, layer in ALL_LAYERS.items()
                 if st.sidebar.checkbox(layer_name, True)]
@@ -35,8 +36,8 @@ def map():
                     map_style="mapbox://styles/mapbox/light-v9",
                     initial_view_state={"latitude": 51.24,
                                         "longitude": 6.85, "zoom": 11, "pitch": 50}))
-        except URLError as e:
-            st.error("""Connection error: %s""" % e.reason)
+    except URLError as e:
+        st.error("""Connection error: %s""" % e.reason)
 
 st.write("15-Minute-City-all in one dataframe")
 map()
