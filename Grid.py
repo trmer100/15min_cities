@@ -2,7 +2,7 @@ import numpy as np
 from itertools import cycle
 
 
-#THIS IS A TEST
+
 # four post comm.--> 10m
 UL = ('51.3538', '6.6824')
 UR = ('51.3538', '6.9398')
