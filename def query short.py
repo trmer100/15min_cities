@@ -69,7 +69,7 @@ dfshort = dfshort.iloc[1:,:]
 dfshort.set_index("amenity",inplace=True)
 print(dfshort)
 
-
+dfshort.to_csv(r'C:\Users\pmard\Desktop\TEST OUTPUT\dfshort_output.csv')
 
 #dfsoloa = dfshort.filter(like="hospital",axis = 0)
 #dfsolob = dfshort.filter(like="school",axis = 0)
