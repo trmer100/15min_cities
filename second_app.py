@@ -7,7 +7,7 @@ from geopy.geocoders import Nominatim
 
 dfcsv= pd.read_csv('C:/Users/jklue/OneDrive/Desktop/output_data55.csv')
 ##test
-def map():
+def map(df):
     try:
         ALL_LAYERS = {
             "Hospital": pdk.Layer(
@@ -25,6 +25,13 @@ def map():
                 get_color=[100, 20, 0, 160],
                 get_radius=1000,
                 radius_scale=0.05,
+            ),
+            "Your address": pdk.Layer(
+                "ScatterplotLayer",
+                get_position = ([52.3390, 6.8213]),
+                get_color = [100,20,0,160],
+                get_radius = 1000,
+                radius_scale = 1.05,
             ),
         }
         st.sidebar.markdown('### Map Layers')
@@ -46,17 +53,28 @@ def map():
     except URLError as e:
         st.error("""Connection error: %s""" % e.reason)
 
+user_street = st.text_input("Street",  )
+user_street_number = st.text_input("House number", )
+user_city = st.text_input("City",)
+user_country ="DE"
+full_address = str(user_street)+" "+str(user_street_number)+","+str(user_city)+","+user_country
+
+
+
 
 def address():
-    user_street = st.text_input("Street",  )
-    user_street_number = st.text_input("House number", )
-    user_city = st.text_input("City",)
-    user_country ="DE"
-    full_address = str(user_street)+" "+str(user_street_number)+","+str(user_city)+","+user_country
     geolocator = Nominatim(user_agent="my_user_agent")
     loc = geolocator.geocode(full_address)
     st.write("latitude:" ,loc.latitude,"\nlongtitude:" ,loc.longitude)
+    return pd.DataFrame({"amenity":["user_home"],"latitude":[loc.latitude],"longitude":[loc.longitude]})
 
+
+
+x = address()
+#x.reset_index(inplace=True,drop=True)
 st.write("15-Minute-City-all in one dataframe")
-address()
-map()
+st.write(x)
+map(x)
+
+#if st.button("Run"):
+#    map(x)
