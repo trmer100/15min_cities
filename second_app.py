@@ -2,6 +2,7 @@ import streamlit as st
 import pydeck as pdk
 from urllib.error import URLError
 import pandas as pd
+from geopy.geocoders import Nominatim
 
 
 dfcsv= pd.read_csv('C:/Users/jklue/OneDrive/Desktop/output_data55.csv')
@@ -45,7 +46,17 @@ def map():
     except URLError as e:
         st.error("""Connection error: %s""" % e.reason)
 
+
+def address():
+    user_street = st.text_input("Street",  )
+    user_street_number = st.text_input("House number", )
+    user_city = st.text_input("City",)
+    user_country ="DE"
+    full_address = str(user_street)+" "+str(user_street_number)+","+str(user_city)+","+user_country
+    geolocator = Nominatim(user_agent="my_user_agent")
+    loc = geolocator.geocode(full_address)
+    st.write("latitude:" ,loc.latitude,"\nlongtitude:" ,loc.longitude)
+
 st.write("15-Minute-City-all in one dataframe")
+address()
 map()
-
-
