@@ -61,7 +61,7 @@ full_address = str(user_street)+" "+str(user_street_number)+","+str(user_city)+"
 
 
 
-
+#ööö
 def address():
     geolocator = Nominatim(user_agent="my_user_agent")
     loc = geolocator.geocode(full_address)
