@@ -75,6 +75,16 @@ x = address()
 st.write("15-Minute-City-all in one dataframe")
 st.write(x)
 map(x)
-
+st.button("Create Map")
 #if st.button("Run"):
 #    map(x)
+
+
+"""to do:
+1. for loop
+2. set base location of user
+3. rearrange functions with button etc..
+4. slider? for what should the slider be used?"""
+
+#data of location is send to the team of markus</philip they will return the points of the grid
+#take data of markus and philip and display these on a map with different color schemes
