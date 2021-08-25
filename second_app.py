@@ -6,7 +6,7 @@ from geopy.geocoders import Nominatim
 
 
 dfcsv= pd.read_csv('C:/Users/jklue/OneDrive/Desktop/output_data55.csv')  #import of local dataframe
-def map(df):
+def map():
     try:
         ALL_LAYERS = {
             "Hospital": pdk.Layer(
@@ -26,8 +26,9 @@ def map(df):
                 radius_scale=0.05,
             ),
             "Your address": pdk.Layer(
-                "ScatterplotLayer",    #first approach to implement the location of the customer, this is not working
-                get_position = ([52.3390, 6.8213]),
+                "ScatterplotLayer",    #first approach to implement the location of the customer
+                data=dfcsv[dfcsv["amenity"] == "user_home"],
+                get_position = ["longitude", "latitude"],
                 get_color = [100,20,0,160],
                 get_radius = 1000,
                 radius_scale = 1.05,
@@ -65,17 +66,20 @@ def address():
     st.write("latitude:" ,loc.latitude,"\nlongtitude:" ,loc.longitude)
     return pd.DataFrame({"amenity":["user_home"],"latitude":[loc.latitude],"longitude":[loc.longitude]})
 
-
-
-x = address()
-#x.reset_index(inplace=True,drop=True)
 st.write("15-Minute-City-all in one dataframe")
-st.write(x)
-map(x)
-st.button("Create Map")
-#if st.button("Run"):
-#    map(x)
+#st.button("Create Map")
+if st.button("Run"):
+    x = address()
+    st.write(x)
+    dfcsv = pd.concat([dfcsv, x])
+    dfcsv.to_csv("dfappend.csv")
 
+map()
+
+
+#from grid2 import cells  # this will transfer the output from grid2 to this script
+#dfcells = pd.DataFrame(cells)
+#st.write(dfcells)
 
 """to do:
 1. for loop
@@ -85,3 +89,4 @@ st.button("Create Map")
 
 #data of location is send to the team of markus</philip they will return the points of the grid
 #take data of markus and philip and display these on a map with different color schemes
+
