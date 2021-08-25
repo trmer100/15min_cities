@@ -5,15 +5,14 @@ import pandas as pd
 from geopy.geocoders import Nominatim
 
 
-dfcsv= pd.read_csv('C:/Users/jklue/OneDrive/Desktop/output_data55.csv')
-##test
+dfcsv= pd.read_csv('C:/Users/jklue/OneDrive/Desktop/output_data55.csv')  #import of local dataframe
 def map(df):
     try:
         ALL_LAYERS = {
             "Hospital": pdk.Layer(
                 "ScatterplotLayer",
-                data=dfcsv[dfcsv["amenity"] == "school"],
-                get_position=["longitude", "latitude"],
+                data=dfcsv[dfcsv["amenity"] == "school"],    #subsetting the dataframe to only use the specific amenity
+                get_position=["longitude", "latitude"],  #pdk.layer needs the column names of the dataframe where the positions are written down
                 get_color=[200, 30, 0, 160],
                 get_radius=1000,
                 radius_scale=0.05,
@@ -27,43 +26,41 @@ def map(df):
                 radius_scale=0.05,
             ),
             "Your address": pdk.Layer(
-                "ScatterplotLayer",
+                "ScatterplotLayer",    #first approach to implement the location of the customer, this is not working
                 get_position = ([52.3390, 6.8213]),
                 get_color = [100,20,0,160],
                 get_radius = 1000,
                 radius_scale = 1.05,
             ),
         }
-        st.sidebar.markdown('### Map Layers')
+        st.sidebar.markdown('### Map Layers')   # sidebar is used to show the tick boxes on the left side
         selected_layers = [
             layer for layer_name, layer in ALL_LAYERS.items()
             if st.sidebar.checkbox(layer_name, True)]
         if selected_layers:
             st.pydeck_chart(pdk.Deck(
-                map_style="mapbox://styles/mapbox/light-v9",
+                map_style="mapbox://styles/mapbox/light-v9",    #this is the basic map
                 initial_view_state={"latitude": 51.24,
                                     "longitude": 6.85, "zoom": 11, "pitch": 50},
                 layers=selected_layers,
             ))
         else:
-            st.pydeck_chart(pdk.Deck(
+            st.pydeck_chart(pdk.Deck(  #this is used in case no box at all is ticked by the user, the map will still be there but no points are on it
                 map_style="mapbox://styles/mapbox/light-v9",
                 initial_view_state={"latitude": 51.24,
                                     "longitude": 6.85, "zoom": 11, "pitch": 50}))
     except URLError as e:
         st.error("""Connection error: %s""" % e.reason)
 
-user_street = st.text_input("Street",  )
+user_street = st.text_input("Street",  )  #st.text_input returns the input of the user to a variable, in this case user_street
 user_street_number = st.text_input("House number", )
 user_city = st.text_input("City",)
 user_country ="DE"
 full_address = str(user_street)+" "+str(user_street_number)+","+str(user_city)+","+user_country
 
 
-
-#ööö
 def address():
-    geolocator = Nominatim(user_agent="my_user_agent")
+    geolocator = Nominatim(user_agent="my_user_agent")   #this and the line below will return the coordinates after providing an address in a certain format
     loc = geolocator.geocode(full_address)
     st.write("latitude:" ,loc.latitude,"\nlongtitude:" ,loc.longitude)
     return pd.DataFrame({"amenity":["user_home"],"latitude":[loc.latitude],"longitude":[loc.longitude]})
