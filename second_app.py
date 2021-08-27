@@ -5,7 +5,7 @@ import pandas as pd
 from geopy.geocoders import Nominatim
 
 
-dfcsv= pd.read_csv('C:/Users/jklue/OneDrive/Desktop/output_data55.csv')  #import of local dataframe
+dfcsv= pd.read_csv("output_data55.csv")  #import of local dataframe
 def map():
     try:
         ALL_LAYERS = {
