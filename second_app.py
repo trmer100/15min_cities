@@ -59,9 +59,9 @@ map()
 
 
 
-#from grid2 import cells  # this will transfer the output from grid2 to this script
-#dfcells = pd.DataFrame(cells)
-#st.write(dfcells)
+from grid2 import cells  # this will transfer the output from grid2 to this script
+dfcells = pd.DataFrame(cells)
+st.write(dfcells)
 
 """to do:
 1. rearrange functions with button etc..
@@ -70,3 +70,4 @@ map()
 #data of location is send to the team of markus</philip they will return the points of the grid
 #take data of markus and philip and display these on a map with different color schemes
 
+#st.write(dfcells[0] - df1["latitude"])
