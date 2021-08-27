@@ -4,52 +4,39 @@ from urllib.error import URLError
 import pandas as pd
 from geopy.geocoders import Nominatim
 
-
-dfcsv= pd.read_csv("output_data55.csv")  #import of local dataframe
+st.write("15-Minute-City")
+dfcsv= pd.read_csv("output_data55.csv")  #import dataframe from github
 def map():
+    individual_values = dfcsv["amenity"].unique() #individual values are taken from the dataframe, the result is a list of amenities
+    amenities2=[] #empty dataframe for the loop below
+    layer=[] #empty layers for the different amenity layers
 
-        ALL_LAYERS = {
-            "Hospital": pdk.Layer(
-                "ScatterplotLayer",
-                data=dfcsv[dfcsv["amenity"] == "school"],    #subsetting the dataframe to only use the specific amenity
-                get_position=["longitude", "latitude"],  #pdk.layer needs the column names of the dataframe where the positions are written down
-                get_color=[200, 30, 0, 160],
-                get_radius=1000,
-                radius_scale=0.05,
-            ),
-            "School": pdk.Layer(
-                "ScatterplotLayer",
-                data=dfcsv[dfcsv["amenity"] == "hospital"],
-                get_position=["longitude", "latitude"],
-                get_color=[100, 20, 0, 160],
-                get_radius=1000,
-                radius_scale=0.05,
-            ),
-            "Your address": pdk.Layer(
-                "ScatterplotLayer",    #first approach to implement the location of the customer
-                data=dfcsv[dfcsv["amenity"] == "user_home"],
-                get_position = ["longitude", "latitude"],
-                get_color = [100,20,0,160],
-                get_radius = 1000,
-                radius_scale = 1.05,
-            ),
-        }
-        st.sidebar.markdown('### Map Layers')   # sidebar is used to show the tick boxes on the left side
-        selected_layers = [
-            layer for layer_name, layer in ALL_LAYERS.items()
-            if st.sidebar.checkbox(layer_name, True)]
-        if selected_layers:
-            st.pydeck_chart(pdk.Deck(
-                map_style="mapbox://styles/mapbox/light-v9",    #this is the basic map
-                initial_view_state={"latitude": 51.24,
-                                    "longitude": 6.85, "zoom": 11, "pitch": 50},
-                layers=selected_layers,
-            ))
-        else:
-            st.pydeck_chart(pdk.Deck(  #this is used in case no box at all is ticked by the user, the map will still be there but no points are on it
-                map_style="mapbox://styles/mapbox/light-v9",
-                initial_view_state={"latitude": 51.24,
-                                    "longitude": 6.85, "zoom": 11, "pitch": 50}))
+    for x in individual_values:
+        checkbox = st.checkbox(x)
+        if checkbox == True:
+            amenities2.append(x) #append x so the system knows which amenities to display on the map
+
+    for x in amenities2:
+        x = pdk.Layer(
+            "ScatterplotLayer",
+            data=dfcsv[dfcsv["amenity"] == x],    #subsetting the dataframe to only use the x amenity, it is repeated until all unique values of the dataframe column amenities are used
+            get_position=["longitude", "latitude"],  #pdk.layer needs the column names of the dataframe where the positions are written down
+            get_color=[200, 30, 0, 160],
+            get_radius=1000,
+            radius_scale=0.05,)
+        layer.append(x)
+    p = pdk.Layer(  #we need an extra layer for displaying the users home
+        "ScatterplotLayer",
+        data=df1[df1["amenity"] == "user_home"],    #subsetting the dataframe to only use the specific amenity user_home
+        get_position=["longitude", "latitude"],
+        get_color=[200, 30, 0, 160],
+        get_radius=1000,
+        radius_scale=1.05,)
+    layer.append(p)
+
+    st.pydeck_chart(pdk.Deck(map_style="mapbox://styles/mapbox/light-v9",
+                             initial_view_state={"latitude": 51.24,"longitude": 6.85, "zoom": 11, "pitch": 50},
+                             layers=layer))
 
 
 user_street = st.text_input("Street",  )  #st.text_input returns the input of the user to a variable, in this case user_street
@@ -65,15 +52,11 @@ def address():
     st.write("latitude:" ,loc.latitude,"\nlongtitude:" ,loc.longitude)
     return pd.DataFrame({"amenity":["user_home"],"latitude":[loc.latitude],"longitude":[loc.longitude]})
 
-st.write("15-Minute-City-all in one dataframe")
-#st.button("Create Map")
-if st.button("Run"):
-    x = address()
-    st.write(x)
-    dfcsv = pd.concat([dfcsv, x])
-    dfcsv.to_csv("dfappend.csv")
 
+
+df1 = pd.DataFrame(address()) #assigning the address to df1 in order to use it in the function map()
 map()
+
 
 
 #from grid2 import cells  # this will transfer the output from grid2 to this script
@@ -81,10 +64,8 @@ map()
 #st.write(dfcells)
 
 """to do:
-1. for loop
-2. set base location of user
-3. rearrange functions with button etc..
-4. slider? for what should the slider be used?"""
+1. rearrange functions with button etc..
+2. slider? for what should the slider be used?"""
 
 #data of location is send to the team of markus</philip they will return the points of the grid
 #take data of markus and philip and display these on a map with different color schemes
