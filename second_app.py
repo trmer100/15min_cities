@@ -7,7 +7,7 @@ from geopy.geocoders import Nominatim
 
 dfcsv= pd.read_csv("output_data55.csv")  #import of local dataframe
 def map():
-    try:
+
         ALL_LAYERS = {
             "Hospital": pdk.Layer(
                 "ScatterplotLayer",
@@ -50,8 +50,7 @@ def map():
                 map_style="mapbox://styles/mapbox/light-v9",
                 initial_view_state={"latitude": 51.24,
                                     "longitude": 6.85, "zoom": 11, "pitch": 50}))
-    except URLError as e:
-        st.error("""Connection error: %s""" % e.reason)
+
 
 user_street = st.text_input("Street",  )  #st.text_input returns the input of the user to a variable, in this case user_street
 user_street_number = st.text_input("House number", )
