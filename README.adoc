@@ -4,3 +4,6 @@ Project from the Digital Shaper program is worked on by *Group 4*
 
 Trello-Board: https://trello.com/b/B3Dr38te/15-min-city
 
+= Instructions following
+
+Later on we will write an instruction to our app in this document.
