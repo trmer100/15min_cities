@@ -16,7 +16,7 @@ Lat2= 51.3539
 Long1= 6.6824
 Long2= 6.94
 
-d = 0.0405
+d = 0.0005
 r = 0.01 #should be 1km
 
 Score = dict()
@@ -95,6 +95,9 @@ print(cells)
 
 print(len(cells))
 
-
-
+#from streamlit_app import user_address
+#print(user_address)
+#from streamlit_app import preferences
+#from streamlit_app import clicked_amenities
+#print(clicked_amenities)
 
