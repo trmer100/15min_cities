@@ -83,3 +83,14 @@ st.write(shortest_distance_coordinates)
 #take data of markus and philip and display these on a map with different color schemes
 
 #st.write(dfcells[0] - df1["latitude"])
+
+shortest_distance = None
+shortest_distance_coordinates = None
+
+point = (50.776435, -0.146834)
+
+for x in airports:
+    distance = compute_distance(point, x)
+    if distance < shortest_distance or shortest_distance is None:
+        shortest_distance = distance
+        shortest_distance_coordinates = x
