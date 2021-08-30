@@ -25,14 +25,14 @@ def map():
             get_radius=1000,
             radius_scale=0.05,)
         layer.append(x)
-    p = pdk.Layer(  #we need an extra layer for displaying the users home
-        "ScatterplotLayer",
-        data=df1[df1["amenity"] == "user_home"],    #subsetting the dataframe to only use the specific amenity user_home
-        get_position=["longitude", "latitude"],
-        get_color=[200, 30, 0, 160],
-        get_radius=1000,
-        radius_scale=1.05,)
-    layer.append(p)
+    #p = pdk.Layer(  #we need an extra layer for displaying the users home
+    #    "ScatterplotLayer",
+    #    data=df1[df1["amenity"] == "user_home"],    #subsetting the dataframe to only use the specific amenity user_home
+    #    get_position=["longitude", "latitude"],
+    #    get_color=[200, 30, 0, 160],
+    #    get_radius=1000,
+    #    radius_scale=1.05,)
+    #layer.append(p)
 
     st.pydeck_chart(pdk.Deck(map_style="mapbox://styles/mapbox/light-v9",
                              initial_view_state={"latitude": 51.24,"longitude": 6.85, "zoom": 11, "pitch": 50},
@@ -50,30 +50,16 @@ def address():
     geolocator = Nominatim(user_agent="my_user_agent")   #this and the line below will return the coordinates after providing an address in a certain format
     loc = geolocator.geocode(full_address)
     st.write("latitude:" ,loc.latitude,"\nlongtitude:" ,loc.longitude)
-    return pd.DataFrame({"amenity":["user_home"],"latitude":[loc.latitude],"longitude":[loc.longitude]})
+    #st.write(loc.latitude,loc.longitude)
+    #return pd.DataFrame({"amenity":["user_home"],"latitude":[loc.latitude],"longitude":[loc.longitude]})
+    return (loc.latitude, loc.longitude)
 
 
-
-df1 = pd.DataFrame(address()) #assigning the address to df1 in order to use it in the function map()
+#df1 = pd.DataFrame(address()) #assigning the address to df1 in order to use it in the function map()
+user_address = address()
+st.write(user_address)
 map()
 
-
-
-from grid2 import cells  # this will transfer the output from grid2 to this script
-dfcells = pd.DataFrame(cells)
-st.write(dfcells)
-
-shortest_distance = None
-shortest_distance_coordinates = None
-
-point = (51.2290062, 6.8212808624507195)
-
-for beispiel in cells:
-    distance = compute_distance(point, beispiel)
-    if distance < shortest_distance or shortest_distance is None:
-        shortest_distance = distance
-        shortest_distance_coordinates = beispiel
-st.write(shortest_distance_coordinates)
 
 """to do:
 1. rearrange functions with button etc..
@@ -84,13 +70,12 @@ st.write(shortest_distance_coordinates)
 
 #st.write(dfcells[0] - df1["latitude"])
 
-shortest_distance = None
-shortest_distance_coordinates = None
+from grid2 import cells  # this will transfer the output from grid2 to this script
+from scipy import spatial
+listcells = list(cells.keys())
+tree = spatial.KDTree(listcells)
+x = tree.query([user_address])
+cells_index = (x[1])
 
-point = (50.776435, -0.146834)
-
-for x in airports:
-    distance = compute_distance(point, x)
-    if distance < shortest_distance or shortest_distance is None:
-        shortest_distance = distance
-        shortest_distance_coordinates = x
+first_key = list(cells)[cells_index]
+print(first_key)
