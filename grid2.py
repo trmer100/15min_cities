@@ -16,7 +16,7 @@ Lat2= 51.3539
 Long1= 6.6824
 Long2= 6.94
 
-d = 0.0305
+d = 0.0005
 r = 0.01 #should be 1km
 
 Score = dict()
