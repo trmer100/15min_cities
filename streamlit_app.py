@@ -25,14 +25,14 @@ def map():
             get_radius=1000,
             radius_scale=0.05,)
         layer.append(x)
-    #p = pdk.Layer(  #we need an extra layer for displaying the users home
-    #    "ScatterplotLayer",
-    #    data=df1[df1["amenity"] == "user_home"],    #subsetting the dataframe to only use the specific amenity user_home
-    #    get_position=["longitude", "latitude"],
-    #    get_color=[200, 30, 0, 160],
-    #    get_radius=1000,
-    #    radius_scale=1.05,)
-    #layer.append(p)
+    p = pdk.Layer(  #we need an extra layer for displaying the users home
+        "ScatterplotLayer",
+        data=df1[df1["amenity"] == "user_home"],    #subsetting the dataframe to only use the specific amenity user_home
+        get_position=["longitude", "latitude"],
+        get_color=[200, 30, 0, 160],
+        get_radius=1000,
+        radius_scale=1.05,)
+    layer.append(p)
 
     st.pydeck_chart(pdk.Deck(map_style="mapbox://styles/mapbox/light-v9",
                              initial_view_state={"latitude": 51.24,"longitude": 6.85, "zoom": 11, "pitch": 50},
@@ -50,12 +50,12 @@ def address():
     geolocator = Nominatim(user_agent="my_user_agent")   #this and the line below will return the coordinates after providing an address in a certain format
     loc = geolocator.geocode(full_address)
     st.write("latitude:" ,loc.latitude,"\nlongtitude:" ,loc.longitude)
-    #st.write(loc.latitude,loc.longitude)
-    #return pd.DataFrame({"amenity":["user_home"],"latitude":[loc.latitude],"longitude":[loc.longitude]})
+    st.write(loc.latitude,loc.longitude)
+    return pd.DataFrame({"amenity":["user_home"],"latitude":[loc.latitude],"longitude":[loc.longitude]})
     return (loc.latitude, loc.longitude)
 
 
-#df1 = pd.DataFrame(address()) #assigning the address to df1 in order to use it in the function map()
+df1 = pd.DataFrame(address()) #assigning the address to df1 in order to use it in the function map()
 user_address = address()
 st.write(user_address)
 map()
@@ -68,14 +68,13 @@ map()
 #data of location is send to the team of markus</philip they will return the points of the grid
 #take data of markus and philip and display these on a map with different color schemes
 
-#st.write(dfcells[0] - df1["latitude"])
-
 from grid2 import cells  # this will transfer the output from grid2 to this script
 from scipy import spatial
 listcells = list(cells.keys())
 tree = spatial.KDTree(listcells)
 x = tree.query([user_address])
 cells_index = (x[1])
+i = cells_index.astype(int)
+print(i)
+print(listcells[i])
 
-first_key = list(cells)[cells_index]
-print(first_key)
