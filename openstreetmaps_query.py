@@ -49,8 +49,9 @@ def data_prep(df):
     assert df_global_reduced_float["longitude"].dtype == "float"
     return df_global_reduced_float
 
-amenities = ["hospital","school","bar","cafe","fast_food","college","kindergarten"] #insert the amenities here
+#amenities = ["hospital","school","bar","cafe","fast_food","college","kindergarten"] #insert the amenities here
 #amenities = ["cafe","fast_food"]
+amenities = ["hospital","school"]
 
 dfObj = [] #empty df which is used for storing the data from the for loop below
 df1 = pd.Series([""]) #empty series to use "concat" in the for loop

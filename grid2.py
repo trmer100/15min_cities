@@ -95,9 +95,7 @@ print(cells)
 
 print(len(cells))
 
-#from streamlit_app import user_address
-#print(user_address)
-#from streamlit_app import preferences
-#from streamlit_app import clicked_amenities
-#print(clicked_amenities)
-
+from streamlit_app import user_address
+print(user_address)
+from streamlit_app import amenities2_df
+print(amenities2_df)
