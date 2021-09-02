@@ -23,18 +23,18 @@ for x in individual_values:
 
 
 def map(amenities):
-
-    h = pdk.Layer(#https://deck.gl/docs/api-reference/aggregation-layers/heatmap-layer
-        "HeatmapLayer",
-        dfheat,
-        radiusPixels = 50,
-        opacity=0.9,
-        get_position=["longitude", "latitude"],
-        aggregation=pdk.types.String("MEAN"),
-        threshold=0.05,
-        get_weight="total_score",
-        pickable=True,)
-    layer.append(h)
+    #just an example
+    #h = pdk.Layer(#https://deck.gl/docs/api-reference/aggregation-layers/heatmap-layer
+    #    "HeatmapLayer",
+    #    dfheat,
+    #    radiusPixels = 50,
+    #    opacity=0.9,
+    #    get_position=["longitude", "latitude"],
+    #    aggregation=pdk.types.String("MEAN"),
+    #    threshold=0.05,
+    #    get_weight="total_score",
+    #    pickable=True,)
+    #layer.append(h)
 
     for x in amenities2:
         x = pdk.Layer(
