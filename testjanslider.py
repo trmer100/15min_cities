@@ -7,27 +7,36 @@ from geopy.geocoders import Nominatim
 
 st.write("15-Minute-City")
 dfcsv= pd.read_csv("output_data55.csv")  #import dataframe from github
+dfheat = pd.read_csv("Score_Data.xlsx")
+
+individual_values = dfcsv["amenity"].unique() #individual values are taken from the dataframe, the result is a list of amenities
+amenities2=[] #empty dataframe for the loop below
+layer=[] #empty layers for the different amenity layers
+slider_values =[]
+for x in individual_values:
+    checkbox = st.sidebar.checkbox(x)
+    slider_text = "Please choose your weight for " + x
+    slider_value = st.sidebar.slider(slider_text, min_value = 1, max_value=10, step = 1)
+    if checkbox == True:
+        amenities2.append(x) #append x so the system knows which amenities to display on the map
+        slider_values.append(slider_value)
 
 
+#st.subheader("Slider 2")
+#y = st.slider()
+#st.write("Slider number",y)
 
 
-def map():
-    individual_values = dfcsv["amenity"].unique() #individual values are taken from the dataframe, the result is a list of amenities
-    global amenities2
-    amenities2=[] #empty dataframe for the loop below
-    layer=[] #empty layers for the different amenity layers
-    for x in individual_values:
-        checkbox = st.checkbox(x)
-        if checkbox == True:
-            amenities2.append(x) #append x so the system knows which amenities to display on the map
+def map(amenities):
+
 
     for x in amenities2:
         x = pdk.Layer(
             "ScatterplotLayer",
             data=dfcsv[dfcsv["amenity"] == x],    #subsetting the dataframe to only use the x amenity, it is repeated until all unique values of the dataframe column amenities are used
             get_position=["longitude", "latitude"],  #pdk.layer needs the column names of the dataframe where the positions are written down
-            get_color=[200, 30, 0, 160],
-            get_radius=500,
+            get_color=[0, 0, 0, 1000],
+            get_radius=200,
             radius_scale=0.05,)
         layer.append(x)
     p = pdk.Layer(  #we need an extra layer for displaying the users home
@@ -54,27 +63,29 @@ full_address = str(user_street)+" "+str(user_street_number)+","+str(user_city)+"
 def address():
     geolocator = Nominatim(user_agent="my_user_agent")   #this and the line below will return the coordinates after providing an address in a certain format
     loc = geolocator.geocode(full_address)
-    st.write("latitude:" ,loc.latitude,"\nlongtitude:" ,loc.longitude)
+    #st.write("latitude:" ,loc.latitude,"\nlongtitude:" ,loc.longitude)
     return pd.DataFrame({"amenity":["user_home"],"latitude":[loc.latitude],"longitude":[loc.longitude]})
 
 
 
 df1 = pd.DataFrame(address()) #assigning the address to df1 in order to use it in the function map()
 user_address = address()
-map()
-
-st.subheader("Slider 2")
-y = st.slider("Choose your weight between 1-10",min_value = 1, max_value=10, step = 1)
-st.write("Slider number",y)
-
-
-
-st.write(user_address) #user output for makus and philipp
-st.write(amenities2)  #user output for markus and philipp
+if st.button("Create Map"):
+    map(amenities2)
 
 
 
 
+#st.write(user_address) #user output for makus and philipp
+#st.write(amenities2)  #user output for markus and philipp
+#st.write(slider_values) #user output for markus and philipp
+
+
+#combining the tick box and the slider value
+amenities2_df = pd.DataFrame(amenities2)
+slider_values_df = pd.DataFrame(slider_values)
+amenities2_df.insert(1,"weight", slider_values_df,True)
+#st.write(amenities2_df)
 
 
 
