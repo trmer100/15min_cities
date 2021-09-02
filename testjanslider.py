@@ -6,8 +6,9 @@ from geopy.geocoders import Nominatim
 
 
 st.write("15-Minute-City")
-dfcsv= pd.read_csv("output_data55.csv")  #import dataframe from github
-dfheat = pd.read_csv("Score_Data.xlsx")
+dfcsv= pd.read_csv("dfshort_output.csv")  #import dataframe from github
+dfheat = pd.read_csv("Score_Data.csv")
+st.write(dfheat)
 
 individual_values = dfcsv["amenity"].unique() #individual values are taken from the dataframe, the result is a list of amenities
 amenities2=[] #empty dataframe for the loop below
@@ -28,6 +29,22 @@ for x in individual_values:
 
 
 def map(amenities):
+
+
+    #heatlayer = pdk.Layer(
+    #    'HexagonLayer',  # `type` positional argument is here
+    #    dfheat,
+    #    get_position=['Lon', 'Lat'],
+    #    auto_highlight=True,
+    #    elevation_scale=50,
+    #    pickable=True,
+    #    elevation_range=[0, 3000],
+    #    extruded=True,
+    #    coverage=1)
+    #layer.append(heatlayer)
+
+
+
 
 
     for x in amenities2:
