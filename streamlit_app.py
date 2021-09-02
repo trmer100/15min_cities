@@ -93,6 +93,11 @@ if st.button("Create Map"):
 amenities2_df = pd.DataFrame(amenities2)
 slider_values_df = pd.DataFrame(slider_values)
 amenities2_df.insert(1,"weight", slider_values_df,True)
+amenities2_df.to_csv("amenities_weights.csv")
+user_address.to_csv("user_address.csv")
+
+
+
 #st.write(amenities2_df)
 
 
