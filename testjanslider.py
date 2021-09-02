@@ -6,9 +6,8 @@ from geopy.geocoders import Nominatim
 
 
 st.write("15-Minute-City")
-dfcsv= pd.read_csv("dfshort_output.csv")  #import dataframe from github
-dfheat = pd.read_csv("Score_Data.csv")
-st.write(dfheat)
+dfcsv= pd.read_csv("output_data55.csv")  #import dataframe from github
+dfheat = pd.read_csv("Score_Data2.csv")
 
 individual_values = dfcsv["amenity"].unique() #individual values are taken from the dataframe, the result is a list of amenities
 amenities2=[] #empty dataframe for the loop below
@@ -23,36 +22,26 @@ for x in individual_values:
         slider_values.append(slider_value)
 
 
-#st.subheader("Slider 2")
-#y = st.slider()
-#st.write("Slider number",y)
-
-
 def map(amenities):
 
-
-    #heatlayer = pdk.Layer(
-    #    'HexagonLayer',  # `type` positional argument is here
-    #    dfheat,
-    #    get_position=['Lon', 'Lat'],
-    #    auto_highlight=True,
-    #    elevation_scale=50,
-    #    pickable=True,
-    #    elevation_range=[0, 3000],
-    #    extruded=True,
-    #    coverage=1)
-    #layer.append(heatlayer)
-
-
-
-
+    h = pdk.Layer(#https://deck.gl/docs/api-reference/aggregation-layers/heatmap-layer
+        "HeatmapLayer",
+        dfheat,
+        radiusPixels = 50,
+        opacity=0.9,
+        get_position=["longitude", "latitude"],
+        aggregation=pdk.types.String("MEAN"),
+        threshold=0.05,
+        get_weight="total_score",
+        pickable=True,)
+    layer.append(h)
 
     for x in amenities2:
         x = pdk.Layer(
             "ScatterplotLayer",
             data=dfcsv[dfcsv["amenity"] == x],    #subsetting the dataframe to only use the x amenity, it is repeated until all unique values of the dataframe column amenities are used
             get_position=["longitude", "latitude"],  #pdk.layer needs the column names of the dataframe where the positions are written down
-            get_color=[0, 0, 0, 1000],
+            get_color=[0, 0, 0, 1000], #https://rgbacolorpicker.com/
             get_radius=200,
             radius_scale=0.05,)
         layer.append(x)
@@ -60,7 +49,7 @@ def map(amenities):
         "ScatterplotLayer",
         data=df1[df1["amenity"] == "user_home"],    #subsetting the dataframe to only use the specific amenity user_home
         get_position=["longitude", "latitude"],
-        get_color=[200, 30, 0, 160],
+        get_color=[185, 207, 234, 150], #https://rgbacolorpicker.com/
         get_radius=1000,
         radius_scale=1.05,)
     layer.append(p)
@@ -70,18 +59,20 @@ def map(amenities):
                              layers=layer))
     return
 
-user_street = st.text_input("Street",  )  #st.text_input returns the input of the user to a variable, in this case user_street
-user_street_number = st.text_input("House number", )
-user_city = st.text_input("City",)
-user_country ="DE"
-full_address = str(user_street)+" "+str(user_street_number)+","+str(user_city)+","+user_country
-
-
 def address():
     geolocator = Nominatim(user_agent="my_user_agent")   #this and the line below will return the coordinates after providing an address in a certain format
     loc = geolocator.geocode(full_address)
     #st.write("latitude:" ,loc.latitude,"\nlongtitude:" ,loc.longitude)
     return pd.DataFrame({"amenity":["user_home"],"latitude":[loc.latitude],"longitude":[loc.longitude]})
+
+
+user_street = st.text_input("Street", "Königsallee")  #st.text_input returns the input of the user to a variable, in this case user_street, "Königsallee" is the default value here
+user_street_number = st.text_input("House number", "1")
+user_city = st.text_input("City", "Düsseldorf")
+user_country ="DE"
+full_address = str(user_street)+" "+str(user_street_number)+","+str(user_city)+","+user_country
+
+
 
 
 
