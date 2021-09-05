@@ -14,7 +14,7 @@ amenities2=[] #empty dataframe for the loop below
 layer=[] #empty layers for the different amenity layers
 slider_values =[]
 for x in individual_values:
-    checkbox = st.sidebar.checkbox(x)
+    checkbox = st.sidebar.checkbox(x, True)
     slider_text = "Please choose your weight for " + x
     slider_value = st.sidebar.slider(slider_text, min_value = 1, max_value=10, step = 1)
     if checkbox == True:
