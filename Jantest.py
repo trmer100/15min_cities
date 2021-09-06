@@ -4,7 +4,7 @@ import pandas as pd
 from geopy.geocoders import Nominatim
 
 st.write("15-Minute-City")
-dfcsv= pd.read_csv("output_data55.csv")  #import dataframe from github
+dfcsv= pd.read_csv("dflong_output.csv")#import dataframe from github
 dfheat = pd.read_csv("Score_Data2.csv")
 
 individual_values = dfcsv["amenity"].unique() #individual values are taken from the dataframe, the result is a list of amenities
@@ -83,37 +83,3 @@ slider_values_df = pd.DataFrame(slider_values)
 amenities2_df.insert(1,"weight", slider_values_df,True)
 amenities2_df.to_csv("amenities_weights.csv")
 user_address.to_csv("user_address.csv")
-
-
-
-#st.write(amenities2_df)
-
-
-
-#"""to do:
-#1. rearrange functions with button etc..
-#2. slider? for what should the slider be used?
-#3. different colours for different amenities"""
-
-#data of location is send to the team of markus</philip they will return the points of the grid
-#take data of markus and philip and display these on a map with different color schemes
-
-# this will transfer the output from grid2 to this script
-
-#st.write(loc.latitude, loc.longitude)
-    #return (loc.latitude, loc.longitude)
-
-#from grid2 import cells
-#from scipy import spatial
-
-#"""
-#listcells = list(cells.keys())
-#tree = spatial.KDTree(listcells)
-#x = tree.query([user_address])
-#st.write(x)
-#cells_index = (x[1])
-#st.write(cells_index)
-#i = cells_index.astype(int)
-#print(i)
-#print(listcells[i])"""
-

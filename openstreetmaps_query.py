@@ -49,9 +49,9 @@ def data_prep(df):
     assert df_global_reduced_float["longitude"].dtype == "float"
     return df_global_reduced_float
 
-#amenities = ["hospital","school","bar","cafe","fast_food","college","kindergarten"] #insert the amenities here
+amenities = ["hospital","school","bar","cafe","fast_food","college","kindergarten"] #insert the amenities here
 #amenities = ["cafe","fast_food"]
-amenities = ["hospital","school","kindergarten"]
+#amenities = ["hospital","school","kindergarten"]
 
 dfObj = [] #empty df which is used for storing the data from the for loop below
 df1 = pd.Series([""]) #empty series to use "concat" in the for loop
@@ -61,7 +61,7 @@ for x in amenities:
     df2["amenity"] = pd.Series([x for g in range(len(df2.index))])
     print(df2)
     df1 = pd.concat([df1,df2])
-    time.sleep(30) #sleep timer to avoid "too many requests at the server"
+    time.sleep(60) #sleep timer to avoid "too many requests at the server"
 
 
 dfshort = df1[["amenity","latitude","longitude"]]
@@ -71,7 +71,8 @@ dfshort.set_index("amenity",inplace=True)
 print(dfshort)
 
 #dfshort.to_csv(r'C:\Users\pmard\Desktop\TEST OUTPUT\dfshort_output.csv')
-dfshort.to_csv("dfshort_output.csv")
+#dfshort.to_csv("dfshort_output.csv")
+dfshort.to_csv("dflong_output.csv")
 #dfsoloa = dfshort.filter(like="hospital",axis = 0)
 #dfsolob = dfshort.filter(like="school",axis = 0)
 #dfsoloa = dfshort[["hospital"]]
