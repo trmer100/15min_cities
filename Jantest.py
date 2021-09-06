@@ -1,9 +1,7 @@
 import streamlit as st
 import pydeck as pdk
-from urllib.error import URLError
 import pandas as pd
 from geopy.geocoders import Nominatim
-
 
 st.write("15-Minute-City")
 dfcsv= pd.read_csv("output_data55.csv")  #import dataframe from github
@@ -73,20 +71,10 @@ user_country ="DE"
 full_address = str(user_street)+" "+str(user_street_number)+","+str(user_city)+","+user_country
 
 
-
-
-
 df1 = pd.DataFrame(address()) #assigning the address to df1 in order to use it in the function map()
 user_address = address()
 if st.button("Create Map"):
     map(amenities2)
-
-
-
-
-#st.write(user_address) #user output for makus and philipp
-#st.write(amenities2)  #user output for markus and philipp
-#st.write(slider_values) #user output for markus and philipp
 
 
 #combining the tick box and the slider value
