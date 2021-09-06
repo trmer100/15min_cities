@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 
-
 def precompute_grid(csv_path, begin_lat, end_lat, begin_long, end_long, d, r):
     places = pd.read_csv(csv_path)
 
