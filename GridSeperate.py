@@ -42,7 +42,7 @@ def precompute_grid(csv_path, begin_lat, end_lat, begin_long, end_long, d, r):
     return cells
 
 
-def compute_score(grid_cells, target_lat, target_long, weights):
+"""def compute_score(grid_cells, target_lat, target_long, weights):
     np_cells = np.array([*grid_cells.keys()])
     target_coordinate = np.array((target_lat, target_long))
     distances = np.linalg.norm(np_cells - target_coordinate, axis=1)
@@ -56,8 +56,38 @@ def compute_score(grid_cells, target_lat, target_long, weights):
         assert amenity in weights
         score += weights[amenity]
 
-    return score
+    return score"""
 
+
+def compute_score(grid_cells, target_lat, target_long, weights):
+
+
+    latitudes = [x[0] for x in list(grid_cells.keys())]
+    longitudes = [x[1] for x in list(grid_cells.keys())]
+    final_grid=[]
+    for latitude in latitudes:
+        target_lat = latitude
+        row_longitude = []
+        for longitude in longitudes:
+            target_long = longitude
+            np_cells = np.array([*grid_cells.keys()])
+            target_coordinate = np.array((target_lat, target_long))
+            distances = np.linalg.norm(np_cells - target_coordinate, axis=1)
+            min_index = np.argmin(distances)
+            target_cell = np_cells[min_index]
+            #assert ((target_cell[0], target_cell[1]) in cells)
+            amenities = grid_cells[(target_cell[0], target_cell[1])]
+            #print(target_cell,"here")
+            cell_value = cells[tuple(target_cell)]
+
+
+            score = 0
+            for amenity in amenities:
+                assert amenity in weights
+                score += weights[amenity]*cell_value[amenity]
+            row_longitude.append(score)
+        final_grid.append(row_longitude)
+    return final_grid
 
 Lat1 = 51.1238
 Lat2 = 51.3539
@@ -69,11 +99,19 @@ r = 0.01  # should be 1km
 
 file_path = 'dfshort_output.csv'
 
-Score = dict()
-Score["hospital"] = 2
-Score["school"] = 1
+user_preferences = dict()
+user_preferences["hospital"] = 2
+user_preferences["school"] = 1
+user_preferences["kindergarten"] = 4
 
 
 cells = precompute_grid(file_path, Lat1, Lat2, Long1, Long2, d, r)
 
-print(compute_score(cells, 51.14, 6.7, weights=Score))
+print(compute_score(cells, 51.14, 6.7, weights=user_preferences))
+
+
+
+#from Jantest import user_address
+#print(user_address)
+#from Jantest import amenities2_df
+#print(amenities2_df)
