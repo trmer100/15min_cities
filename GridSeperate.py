@@ -42,6 +42,8 @@ def precompute_grid(csv_path, begin_lat, end_lat, begin_long, end_long, d, r):
     return cells
 
 
+
+
 """def compute_score(grid_cells, target_lat, target_long, weights):
     np_cells = np.array([*grid_cells.keys()])
     target_coordinate = np.array((target_lat, target_long))
@@ -94,7 +96,7 @@ Lat2 = 51.3539
 Long1 = 6.6824
 Long2 = 6.94
 
-d = 0.0005
+d = 0.0805
 r = 0.01  # should be 1km
 
 file_path = 'dfshort_output.csv'
@@ -106,9 +108,10 @@ user_preferences["kindergarten"] = 4
 
 
 cells = precompute_grid(file_path, Lat1, Lat2, Long1, Long2, d, r)
-
+cells_df = pd.DataFrame.from_dict(cells, orient = "index")
+#cells_df.to_csv("precomputed_grid")
+print(cells_df)
 print(compute_score(cells, 51.14, 6.7, weights=user_preferences))
-
 
 
 #from Jantest import user_address
