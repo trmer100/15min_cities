@@ -3,7 +3,7 @@ import pydeck as pdk
 import pandas as pd
 from geopy.geocoders import Nominatim
 import numpy as np
-"""
+
 def precompute_grid(csv_path, begin_lat, end_lat, begin_long, end_long, d, r):
     places = pd.read_csv(csv_path)
 
@@ -123,9 +123,6 @@ print(compute_score(cells, 51.14, 6.7, weights=user_preferences))
 #print(user_address)
 #from Jantest import amenities2_df
 #print(amenities2_df)
-
-
-"""
 
 
 

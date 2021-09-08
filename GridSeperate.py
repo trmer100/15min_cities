@@ -9,7 +9,6 @@ def precompute_grid(csv_path, begin_lat, end_lat, begin_long, end_long, d, r):
 
     Latitude = np.arange(begin_lat, end_lat, d)
     Longitude = np.arange(begin_long, end_long, d)
-
     cells = dict()
 
     for _, row in places.iterrows():
@@ -89,6 +88,8 @@ def compute_score(grid_cells, target_lat, target_long, weights):
                 score += weights[amenity]*cell_value[amenity]
             row_longitude.append(score)
         final_grid.append(row_longitude)
+        print(np_cells)
+
     return final_grid
 
 Lat1 = 51.1238
@@ -107,13 +108,19 @@ user_preferences["school"] = 1
 user_preferences["kindergarten"] = 4
 
 
+
 cells = precompute_grid(file_path, Lat1, Lat2, Long1, Long2, d, r)
+
 cells_df = pd.DataFrame.from_dict(cells, orient = "index")
 #cells_df.to_csv("precomputed_grid")
-print(cells_df)
+pd.DataFrame.reset_index(cells_df, inplace = True)
+
 print(compute_score(cells, 51.14, 6.7, weights=user_preferences))
+pd.DataFrame.rename(cells_df,columns={'level_0': 'latitude', 'level_1': 'longitude'}
+,inplace = True)
 
-
+#cells_df["Score"]
+print(cells_df)
 #from Jantest import user_address
 #print(user_address)
 #from Jantest import amenities2_df
