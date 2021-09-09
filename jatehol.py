@@ -55,29 +55,21 @@ Lat2 = 51.3539
 Long1 = 6.6824
 Long2 = 6.94
 
-d = 0.0805
+d = 0.005
 r = 0.01  # should be 1km
 
-file_path = 'dfshort_output.csv'
-cells = precompute_grid(file_path, Lat1, Lat2, Long1, Long2, d, r)
+#file_path = 'dflong_output.csv'
+#cells = precompute_grid(file_path, Lat1, Lat2, Long1, Long2, d, r)
+#cells_df = pd.DataFrame.from_dict(cells, orient = "index")
+#pd.DataFrame.reset_index(cells_df, inplace = True)
+#pd.DataFrame.rename(cells_df,columns={'level_0': 'latitude', 'level_1': 'longitude'}
+#,inplace = True)
+#cells_df.fillna(value = 0,inplace = True)
+#cells_df.to_csv("cells_df.csv")
 
-cells_df = pd.DataFrame.from_dict(cells, orient = "index")
-pd.DataFrame.reset_index(cells_df, inplace = True)
-pd.DataFrame.rename(cells_df,columns={'level_0': 'latitude', 'level_1': 'longitude'}
-,inplace = True)
-
-cells_df["total_score"] = cells_df["kindergarten"]*2
-
-
-
-cells_df.drop(columns= "kindergarten", inplace=True)
-cells_df.drop(columns= "school", inplace=True)
-st.write(cells_df)
-print(cells_df.dtypes)
-
-dfheat = pd.read_csv("Score_Data2.csv")
-st.write(dfheat)
-print(dfheat.dtypes)
+#dfheat = pd.read_csv("Score_Data2.csv")
+#st.write(dfheat)
+#print(dfheat.dtypes)
 
 
 st.write("15-Minute-City")
@@ -89,6 +81,16 @@ individual_values = dfcsv[
 amenities2 = []  # empty dataframe for the loop below
 layer = []  # empty layers for the different amenity layers
 slider_values = []
+
+
+
+
+
+
+
+
+
+
 for x in individual_values:
     checkbox = st.sidebar.checkbox(x, True)
     slider_text = "Please choose your weight for " + x
@@ -156,19 +158,33 @@ full_address = str(user_street) + " " + str(user_street_number) + "," + str(user
 df1 = pd.DataFrame(address())  # assigning the address to df1 in order to use it in the function map()
 user_address = address()
 if st.button("Create Map"):
-    map(amenities2)
+    cells_df = pd.read_csv("cells_df.csv")
 
+    #cells_df.drop(columns="kindergarten", inplace=True)
+    #cells_df.drop(columns="school", inplace=True)
+    #cells_df.drop(columns="hospital", inplace=True)
+    st.write(cells_df)
+    amenities2_df = pd.DataFrame(amenities2)
+    slider_values_df = pd.DataFrame(slider_values)
+    amenities2_df.insert(1, "weight", slider_values_df, True)
+    amenities2_df.to_csv("amenities_weights.csv")
+    user_address.to_csv("user_address.csv")
+    #
+    hospital = amenities2_df[amenities2_df[0]=="hospital"]
+    whospital = hospital["weight"].values
+    st.write(whospital)
+    #
+    #cells_df["total_score"] = 2
+    st.write(cells_df["hospital"].astype(int)*whospital)
+    st.write(cells_df)
+    #map(amenities2)
 # st.write(user_address) #user output for makus and philipp
 # st.write(amenities2)  #user output for markus and philipp
 # st.write(slider_values) #user output for markus and philipp
 
 
 # combining the tick box and the slider value
-amenities2_df = pd.DataFrame(amenities2)
-slider_values_df = pd.DataFrame(slider_values)
-amenities2_df.insert(1, "weight", slider_values_df, True)
-amenities2_df.to_csv("amenities_weights.csv")
-user_address.to_csv("user_address.csv")
+
 
 # st.write(amenities2_df)
 
