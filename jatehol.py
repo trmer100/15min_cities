@@ -163,21 +163,31 @@ if st.button("Create Map"):
     #cells_df.drop(columns="kindergarten", inplace=True)
     #cells_df.drop(columns="school", inplace=True)
     #cells_df.drop(columns="hospital", inplace=True)
-    st.write(cells_df)
+    #st.write(cells_df)
     amenities2_df = pd.DataFrame(amenities2)
     slider_values_df = pd.DataFrame(slider_values)
     amenities2_df.insert(1, "weight", slider_values_df, True)
     amenities2_df.to_csv("amenities_weights.csv")
     user_address.to_csv("user_address.csv")
-    #
+    #hospital
     hospital = amenities2_df[amenities2_df[0]=="hospital"]
     whospital = hospital["weight"].values
-    st.write(whospital)
-    #
-    #cells_df["total_score"] = 2
-    st.write(cells_df["hospital"].astype(int)*whospital)
+    whospital= cells_df["hospital"].astype(int)*(whospital+0)
+    #bar
+    bar1 = amenities2_df[amenities2_df[0]=="bar"]
+    bar2 = bar1["weight"].values
+    bardummy = (bar2.size)*1
+    st.write(bardummy)
+    bar3int =cells_df["bar"].astype(int)
+    st.write(bar3int)
+    bar4 = bar3int*(bar2*bardummy)
+    #st.write(bar4)
+
+
+    cells_df["total_score"] = whospital
+
     st.write(cells_df)
-    #map(amenities2)
+    map(amenities2)
 # st.write(user_address) #user output for makus and philipp
 # st.write(amenities2)  #user output for markus and philipp
 # st.write(slider_values) #user output for markus and philipp
