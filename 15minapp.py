@@ -68,12 +68,6 @@ r = 0.01  # should be 1km
 #cells_df.to_csv("cells2_df.csv")
 
 
-
-
-
-
-
-
 st.write("15-Minute-City")
 dfcsv = pd.read_csv("dflong_output.csv")  # import dataframe from github
 
@@ -99,11 +93,11 @@ def map(amenities):
     h = pdk.Layer(  # https://deck.gl/docs/api-reference/aggregation-layers/heatmap-layer
         "HeatmapLayer",
         cells_df,
-        radiusPixels=50,
+        radiusPixels=125,
         opacity=0.9,
         get_position=["longitude", "latitude"],
         #aggregation=pdk.types.String("MEAN"),
-        threshold=0.05,
+        threshold=0.1,
         get_weight="total_score2",
         pickable=True, )
     layer.append(h)
