@@ -157,6 +157,32 @@ full_address = str(user_street) + " " + str(user_street_number) + "," + str(user
 
 df1 = pd.DataFrame(address())  # assigning the address to df1 in order to use it in the function map()
 user_address = address()
+
+def weights(amenity):
+    bar1 = amenities2_df[amenities2_df[0]==amenity]
+    bar2 = bar1["weight"].values
+    if bar2 > 0:
+        st.write("ticked")
+        bar3 = bar2
+    else:
+        st.write("unticked")
+        bar3 = 0
+        weight = cells_df[amenity].astype(int)*bar3
+    return weight
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 if st.button("Create Map"):
     cells_df = pd.read_csv("cells_df.csv")
 
@@ -176,18 +202,43 @@ if st.button("Create Map"):
     #bar
     bar1 = amenities2_df[amenities2_df[0]=="bar"]
     bar2 = bar1["weight"].values
-    bardummy = (bar2.size)*1
-    st.write(bardummy)
-    bar3int =cells_df["bar"].astype(int)
-    st.write(bar3int)
-    bar4 = bar3int*(bar2*bardummy)
-    #st.write(bar4)
+    if bar2 > 0:
+        st.write("ticked")
+        bar3 = bar2
+    else:
+        st.write("unticked")
+        bar3 = 0
+    bar4 = cells_df["bar"].astype(int)*bar3
+    #
+    school1 = amenities2_df[amenities2_df[0] == "school"]
+    school2 = school1["weight"].values
+    if school2 > 0:
+        st.write("ticked")
+        school3 = school2
+    else:
+        st.write("unticked")
+        school3 = 0
+    school4 = cells_df["school"].astype(int) * school3
 
-
-    cells_df["total_score"] = whospital + bar4
-
+    cells_df["total_score"] = whospital + bar4 + school4
     st.write(cells_df)
     map(amenities2)
+    st.write(weights("bar"))
+st.write("hello")
+
+
+#def weights(amenity):
+#    bar1 = amenities2_df[amenities2_df[0]==amenity]
+#    bar2 = bar1["weight"].values
+#    if bar2 > 0:
+#        st.write("ticked")
+#        bar3 = bar2
+#    else:
+#        st.write("unticked")
+#        bar3 = 0
+#        bar4 = cells_df[amenity].astype(int)*bar3
+#    return bar4
+
 # st.write(user_address) #user output for makus and philipp
 # st.write(amenities2)  #user output for markus and philipp
 # st.write(slider_values) #user output for markus and philipp
