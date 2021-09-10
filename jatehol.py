@@ -184,7 +184,7 @@ if st.button("Create Map"):
     #st.write(bar4)
 
 
-    cells_df["total_score"] = whospital
+    cells_df["total_score"] = whospital + bar4
 
     st.write(cells_df)
     map(amenities2)
