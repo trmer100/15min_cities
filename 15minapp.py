@@ -160,37 +160,6 @@ if st.button("Create Map"):
     amenities2_df.insert(1, "weight", slider_values_df, True)
     amenities2_df.to_csv("amenities_weights.csv")
     user_address.to_csv("user_address.csv")
-    #hospital
-    hospital1 = amenities2_df[amenities2_df[0]=="hospital"]
-    hospital2 = hospital1["weight"].values
-    if hospital2 > 0:
-        hospital3 = hospital2
-    else:
-        hospital3 = 0
-    hospital4 = cells_df["hospital"].astype(int)*hospital3
-    #bar
-    bar1 = amenities2_df[amenities2_df[0]=="bar"]
-    bar2 = bar1["weight"].values
-    if bar2 > 0:
-        st.write("ticked")
-        bar3 = bar2
-    else:
-        st.write("unticked")
-        bar3 = 0
-    bar4 = cells_df["bar"].astype(int)*bar3
-    #
-    school1 = amenities2_df[amenities2_df[0] == "school"]
-    school2 = school1["weight"].values
-    if school2 > 0:
-        st.write("ticked")
-        school3 = school2
-    else:
-        st.write("unticked")
-        school3 = 0
-    school4 = cells_df["school"].astype(int) * school3
-
-    cells_df["total_score"] = hospital4 + bar4 + school4
-    st.write(cells_df)
     cells_df["total_score2"] = 0
     for x in individual_values:
         y1 = amenities2_df[amenities2_df[0] == x]
@@ -200,9 +169,7 @@ if st.button("Create Map"):
         else:
             y3 = 0
         y4 = cells_df[x].astype(int) * y3
-        st.write(y4)
         cells_df["total_score2"] = cells_df["total_score2"] + y4
-    st.write(cells_df)
     map(amenities2)
 
 
