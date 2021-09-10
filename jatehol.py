@@ -58,19 +58,6 @@ Long2 = 6.94
 d = 0.005
 r = 0.01  # should be 1km
 
-#file_path = 'dflong_output.csv'
-#cells = precompute_grid(file_path, Lat1, Lat2, Long1, Long2, d, r)
-#cells_df = pd.DataFrame.from_dict(cells, orient = "index")
-#pd.DataFrame.reset_index(cells_df, inplace = True)
-#pd.DataFrame.rename(cells_df,columns={'level_0': 'latitude', 'level_1': 'longitude'}
-#,inplace = True)
-#cells_df.fillna(value = 0,inplace = True)
-#cells_df.to_csv("cells_df.csv")
-
-#dfheat = pd.read_csv("Score_Data2.csv")
-#st.write(dfheat)
-#print(dfheat.dtypes)
-
 
 st.write("15-Minute-City")
 dfcsv = pd.read_csv("dflong_output.csv")  # import dataframe from github
@@ -81,14 +68,6 @@ individual_values = dfcsv[
 amenities2 = []  # empty dataframe for the loop below
 layer = []  # empty layers for the different amenity layers
 slider_values = []
-
-
-
-
-
-
-
-
 
 
 for x in individual_values:
@@ -158,47 +137,22 @@ full_address = str(user_street) + " " + str(user_street_number) + "," + str(user
 df1 = pd.DataFrame(address())  # assigning the address to df1 in order to use it in the function map()
 user_address = address()
 
-def weights(amenity):
-    bar1 = amenities2_df[amenities2_df[0]==amenity]
-    bar2 = bar1["weight"].values
-    if bar2 > 0:
-        st.write("ticked")
-        bar3 = bar2
-    else:
-        st.write("unticked")
-        bar3 = 0
-        weight = cells_df[amenity].astype(int)*bar3
-    return weight
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 if st.button("Create Map"):
     cells_df = pd.read_csv("cells_df.csv")
-
-    #cells_df.drop(columns="kindergarten", inplace=True)
-    #cells_df.drop(columns="school", inplace=True)
-    #cells_df.drop(columns="hospital", inplace=True)
-    #st.write(cells_df)
     amenities2_df = pd.DataFrame(amenities2)
     slider_values_df = pd.DataFrame(slider_values)
     amenities2_df.insert(1, "weight", slider_values_df, True)
     amenities2_df.to_csv("amenities_weights.csv")
     user_address.to_csv("user_address.csv")
     #hospital
-    hospital = amenities2_df[amenities2_df[0]=="hospital"]
-    whospital = hospital["weight"].values
-    whospital= cells_df["hospital"].astype(int)*(whospital+0)
+    hospital1 = amenities2_df[amenities2_df[0]=="hospital"]
+    hospital2 = hospital1["weight"].values
+    if hospital2 > 0:
+        hospital3 = hospital2
+    else:
+        hospital3 = 0
+    hospital4 = cells_df["hospital"].astype(int)*hospital3
     #bar
     bar1 = amenities2_df[amenities2_df[0]=="bar"]
     bar2 = bar1["weight"].values
@@ -220,59 +174,21 @@ if st.button("Create Map"):
         school3 = 0
     school4 = cells_df["school"].astype(int) * school3
 
-    cells_df["total_score"] = whospital + bar4 + school4
+    cells_df["total_score"] = hospital4 + bar4 + school4
     st.write(cells_df)
     map(amenities2)
-    st.write(weights("bar"))
-st.write("hello")
 
-
-#def weights(amenity):
-#    bar1 = amenities2_df[amenities2_df[0]==amenity]
-#    bar2 = bar1["weight"].values
-#    if bar2 > 0:
-#        st.write("ticked")
-#        bar3 = bar2
+#test
+#for x in individual_values:
+#    y1 = amenities2_df[amenities2_df[0] == x]
+#    y2 = y1["weight"].values
+#    if y2 > 0:
+#        y3 = y2
 #    else:
-#        st.write("unticked")
-#        bar3 = 0
-#        bar4 = cells_df[amenity].astype(int)*bar3
-#    return bar4
-
-# st.write(user_address) #user output for makus and philipp
-# st.write(amenities2)  #user output for markus and philipp
-# st.write(slider_values) #user output for markus and philipp
+#        y3 = 0
+#    y4 = cells_df[x].astype(int) * y3
+#    st.write(y4)
 
 
-# combining the tick box and the slider value
 
 
-# st.write(amenities2_df)
-
-
-# """to do:
-# 1. rearrange functions with button etc..
-# 2. slider? for what should the slider be used?
-# 3. different colours for different amenities"""
-
-# data of location is send to the team of markus</philip they will return the points of the grid
-# take data of markus and philip and display these on a map with different color schemes
-
-# this will transfer the output from grid2 to this script
-
-# st.write(loc.latitude, loc.longitude)
-# return (loc.latitude, loc.longitude)
-
-# from grid2 import cells
-# from scipy import spatial
-
-# """
-# listcells = list(cells.keys())
-# tree = spatial.KDTree(listcells)
-# x = tree.query([user_address])
-# st.write(x)
-# cells_index = (x[1])
-# st.write(cells_index)
-# i = cells_index.astype(int)
-# print(i)
-# print(listcells[i])"""
