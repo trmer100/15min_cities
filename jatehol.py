@@ -55,8 +55,23 @@ Lat2 = 51.3539
 Long1 = 6.6824
 Long2 = 6.94
 
-d = 0.005
+d = 0.001
 r = 0.01  # should be 1km
+
+#file_path = 'dflong_output.csv'
+#cells = precompute_grid(file_path, Lat1, Lat2, Long1, Long2, d, r)
+#cells_df = pd.DataFrame.from_dict(cells, orient = "index")
+#pd.DataFrame.reset_index(cells_df, inplace = True)
+#pd.DataFrame.rename(cells_df,columns={'level_0': 'latitude', 'level_1': 'longitude'}
+#,inplace = True)
+#cells_df.fillna(value = 0,inplace = True)
+#cells_df.to_csv("cells2_df.csv")
+
+
+
+
+
+
 
 
 st.write("15-Minute-City")
@@ -89,7 +104,7 @@ def map(amenities):
         get_position=["longitude", "latitude"],
         #aggregation=pdk.types.String("MEAN"),
         threshold=0.05,
-        get_weight="total_score",
+        get_weight="total_score2",
         pickable=True, )
     layer.append(h)
 
@@ -139,7 +154,7 @@ user_address = address()
 
 
 if st.button("Create Map"):
-    cells_df = pd.read_csv("cells_df.csv")
+    cells_df = pd.read_csv("cells2_df.csv")
     amenities2_df = pd.DataFrame(amenities2)
     slider_values_df = pd.DataFrame(slider_values)
     amenities2_df.insert(1, "weight", slider_values_df, True)
@@ -176,18 +191,20 @@ if st.button("Create Map"):
 
     cells_df["total_score"] = hospital4 + bar4 + school4
     st.write(cells_df)
+    cells_df["total_score2"] = 0
+    for x in individual_values:
+        y1 = amenities2_df[amenities2_df[0] == x]
+        y2 = y1["weight"].values
+        if y2 > 0:
+            y3 = y2
+        else:
+            y3 = 0
+        y4 = cells_df[x].astype(int) * y3
+        st.write(y4)
+        cells_df["total_score2"] = cells_df["total_score2"] + y4
+    st.write(cells_df)
     map(amenities2)
 
-#test
-#for x in individual_values:
-#    y1 = amenities2_df[amenities2_df[0] == x]
-#    y2 = y1["weight"].values
-#    if y2 > 0:
-#        y3 = y2
-#    else:
-#        y3 = 0
-#    y4 = cells_df[x].astype(int) * y3
-#    st.write(y4)
 
 
 
