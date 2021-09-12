@@ -168,4 +168,3 @@ if st.button("Create Map"):
 #more detail, more amenities, better personalization, more options
 #changeable preselection
 
-
