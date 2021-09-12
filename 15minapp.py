@@ -1,13 +1,6 @@
 import streamlit as st
 import pydeck as pdk
-from urllib.error import URLError
-import pandas as pd
 from geopy.geocoders import Nominatim
-
-
-
-
-
 import pandas as pd
 import numpy as np
 
@@ -57,7 +50,7 @@ Long2 = 6.94
 
 d = 0.001
 r = 0.01  # should be 1km
-
+###KEEP! IMPORTANT FOR CREATING A NEW GRID WITH MORE AMENITIES###
 #file_path = 'dflong_output.csv'
 #cells = precompute_grid(file_path, Lat1, Lat2, Long1, Long2, d, r)
 #cells_df = pd.DataFrame.from_dict(cells, orient = "index")
@@ -68,7 +61,8 @@ r = 0.01  # should be 1km
 #cells_df.to_csv("cells2_df.csv")
 
 
-st.write("15-Minute-City")
+st.title("15-Minute-City")
+st.write("Plase insert your address and provide your prefernces on the left. When finished please click the """"Create Map""" "button to show how good your address and the surrounding area fits the 15 minute city approach!")
 dfcsv = pd.read_csv("dflong_output.csv")  # import dataframe from github
 
 
