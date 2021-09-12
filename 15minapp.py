@@ -118,7 +118,7 @@ def map(amenities):
         data=df1[df1["amenity"] == "user_home"],  # subsetting the dataframe to only use the specific amenity user_home
         get_position=["longitude", "latitude"],
         get_color=[185, 207, 234, 150],  # https://rgbacolorpicker.com/
-        get_radius=1000,
+        get_radius=730,
         radius_scale=1.05, )
     layer.append(p)
 
