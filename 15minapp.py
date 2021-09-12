@@ -62,7 +62,7 @@ r = 0.01  # should be 1km
 
 
 st.title("15-Minute-City")
-st.write("Plase insert your address and provide your prefernces on the left. When finished please click the """"Create Map""" "button to show how good your address and the surrounding area fits the 15 minute city approach!")
+st.write("Please insert your address and provide your preferences on the left. When finished please click the """"Create Map""" "button to show how good your address and the surrounding area fits the 15 minute city approach!")
 dfcsv = pd.read_csv("dflong_output.csv")  # import dataframe from github
 
 
@@ -88,7 +88,7 @@ def map(amenities):
         "HeatmapLayer",
         cells_df,
         radiusPixels=125,
-        opacity=0.9,
+        opacity=0.3,
         get_position=["longitude", "latitude"],
         #aggregation=pdk.types.String("MEAN"),
         threshold=0.1,
@@ -112,7 +112,7 @@ def map(amenities):
         data=df1[df1["amenity"] == "user_home"],  # subsetting the dataframe to only use the specific amenity user_home
         get_position=["longitude", "latitude"],
         get_color=[185, 207, 234, 150],  # https://rgbacolorpicker.com/
-        get_radius=730,
+        get_radius=600, #realistic value is 730
         radius_scale=1.05, )
     layer.append(p)
 
@@ -140,7 +140,6 @@ full_address = str(user_street) + " " + str(user_street_number) + "," + str(user
 df1 = pd.DataFrame(address())  # assigning the address to df1 in order to use it in the function map()
 user_address = address()
 
-
 if st.button("Create Map"):
     cells_df = pd.read_csv("cells2_df.csv")
     amenities2_df = pd.DataFrame(amenities2)
@@ -161,6 +160,12 @@ if st.button("Create Map"):
     map(amenities2)
 
 
-
+#improvements
+#higher density of grid points
+#adjustable distance(bike, 2km, by feet 1km..)
+#integrate public transporation with highe distances
+#create scores, additional information, opitmal locations
+#more detail, more amenities, better personalization, more options
+#changeable preselection
 
 
