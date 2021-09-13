@@ -51,18 +51,18 @@ Long2 = 6.94
 d = 0.001
 r = 0.01  # should be 1km
 ###KEEP! IMPORTANT FOR CREATING A NEW GRID WITH MORE AMENITIES###
-#file_path = 'dflong_output.csv'
-#cells = precompute_grid(file_path, Lat1, Lat2, Long1, Long2, d, r)
-#cells_df = pd.DataFrame.from_dict(cells, orient = "index")
-#pd.DataFrame.reset_index(cells_df, inplace = True)
-#pd.DataFrame.rename(cells_df,columns={'level_0': 'latitude', 'level_1': 'longitude'}
-#,inplace = True)
-#cells_df.fillna(value = 0,inplace = True)
-#cells_df.to_csv("cells_df.csv")
+file_path = 'dflong_output.csv'
+cells = precompute_grid(file_path, Lat1, Lat2, Long1, Long2, d, r)
+cells_df = pd.DataFrame.from_dict(cells, orient = "index")
+pd.DataFrame.reset_index(cells_df, inplace = True)
+pd.DataFrame.rename(cells_df,columns={'level_0': 'latitude', 'level_1': 'longitude'}
+,inplace = True)
+cells_df.fillna(value = 0,inplace = True)
+cells_df.to_csv("cells_df.csv")
 
 
 st.title("15-Minute-City")
-st.write("Please insert your address and provide your preferences on the left. When finished please click the """"Create Map""" "button to show how good your address and the surrounding area fits the 15 minute city approach!")
+st.write("Please insert your address and provide your preferences on the left. When finished, please click the """"Create Map""" "button to show how good your address and the surrounding area fits the 15-minute city approach!")
 dfcsv = pd.read_csv("dflong_output.csv")  # import dataframe from github
 
 
