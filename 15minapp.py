@@ -58,7 +58,7 @@ r = 0.01  # should be 1km
 #pd.DataFrame.rename(cells_df,columns={'level_0': 'latitude', 'level_1': 'longitude'}
 #,inplace = True)
 #cells_df.fillna(value = 0,inplace = True)
-#cells_df.to_csv("cells2_df.csv")
+#cells_df.to_csv("cells_df.csv")
 
 
 st.title("15-Minute-City")
@@ -92,7 +92,7 @@ def map(amenities):
         get_position=["longitude", "latitude"],
         #aggregation=pdk.types.String("MEAN"),
         threshold=0.1,
-        get_weight="total_score2",
+        get_weight="total_score",
         pickable=True, )
     layer.append(h)
 
@@ -141,13 +141,13 @@ df1 = pd.DataFrame(address())  # assigning the address to df1 in order to use it
 user_address = address()
 
 if st.button("Create Map"):
-    cells_df = pd.read_csv("cells2_df.csv")
+    cells_df = pd.read_csv("cells_df.csv")
     amenities2_df = pd.DataFrame(amenities2)
     slider_values_df = pd.DataFrame(slider_values)
     amenities2_df.insert(1, "weight", slider_values_df, True)
-    amenities2_df.to_csv("amenities_weights.csv")
-    user_address.to_csv("user_address.csv")
-    cells_df["total_score2"] = 0
+    #amenities2_df.to_csv("amenities_weights.csv")
+    #user_address.to_csv("user_address.csv")
+    cells_df["total_score"] = 0
     for x in individual_values:
         y1 = amenities2_df[amenities2_df[0] == x]
         y2 = y1["weight"].values
@@ -156,8 +156,9 @@ if st.button("Create Map"):
         else:
             y3 = 0
         y4 = cells_df[x].astype(int) * y3
-        cells_df["total_score2"] = cells_df["total_score2"] + y4
+        cells_df["total_score"] = cells_df["total_score"] + y4
     map(amenities2)
+    st.write(cells_df)
 
 
 #improvements
