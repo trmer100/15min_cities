@@ -168,4 +168,10 @@ if st.button("Create Map"):
 #create scores, additional information, opitmal locations
 #more detail, more amenities, better personalization, more options
 #changeable preselection
+#hover over points show amenity type
+#testing
+#use str + r
+#markdown file
+#requerements
+#code cleaing
 
