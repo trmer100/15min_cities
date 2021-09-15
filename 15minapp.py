@@ -65,13 +65,13 @@ def precompute_grid(csv_path, begin_lat, end_lat, begin_long, end_long, d, r):
 
 st.title("15-Minute-City")
 st.write("Please insert your address and provide your preferences on the left. When finished, please click the """"Create Map""" "button to show how good your address and the surrounding area fits the 15-minute city approach!")
-dfcsv = pd.read_csv("amenities_df.csv")  # import dataframe from github
+all_amenities_df = pd.read_csv("amenities_df.csv") 
 
 
-individual_values = dfcsv[
-    "amenity"].unique()  # individual values are taken from the dataframe, the result is a list of amenities
-amenities = []  # empty dataframe for the loop below
-layer = []  # empty layers for the different amenity layers
+individual_values = all_amenities_df[
+    "amenity"].unique()  
+amenities = []  
+layer = [] 
 slider_values = []
 
 
@@ -99,7 +99,7 @@ def map(amenities):
     for amenity_layer in amenities:
         amenity_layer = pdk.Layer(
             "ScatterplotLayer",
-            data=dfcsv[dfcsv["amenity"] == amenity_layer],
+            data=all_amenities_df[all_amenities_df["amenity"] == amenity_layer],
             get_position=["longitude", "latitude"],
             get_color=[0, 0, 0, 1000],
             get_radius=200,
