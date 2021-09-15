@@ -44,13 +44,13 @@ def precompute_grid(csv_path, begin_lat, end_lat, begin_long, end_long, d, r):
                         break
     return cells
 
-Lat1 = 51.1238
-Lat2 = 51.3539
-Long1 = 6.6824
-Long2 = 6.94
+#Lat1 = 51.1238
+#Lat2 = 51.3539
+#Long1 = 6.6824
+#Long2 = 6.94
 
-d = 0.001
-r = 0.01  # should be 1km
+#d = 0.001
+#r = 0.01  # should be 1km
 
 #connection to openstreetmaps_query.py read in of amenities_df.csv (cointains all amenities)
 #file_path = 'amenities_df.csv'
@@ -70,7 +70,7 @@ dfcsv = pd.read_csv("amenities_df.csv")  # import dataframe from github
 
 individual_values = dfcsv[
     "amenity"].unique()  # individual values are taken from the dataframe, the result is a list of amenities
-amenities2 = []  # empty dataframe for the loop below
+amenities = []  # empty dataframe for the loop below
 layer = []  # empty layers for the different amenity layers
 slider_values = []
 
@@ -80,43 +80,39 @@ for x in individual_values:
     slider_text = "Please choose your weight for " + x
     slider_value = st.sidebar.slider(slider_text, min_value=1, max_value=10, step=1)
     if checkbox == True:
-        amenities2.append(x)  # append x so the system knows which amenities to display on the map
+        amenities.append(x)  # append x so the system knows which amenities to display on the map
         slider_values.append(slider_value)
 
 
 def map(amenities):
-    # just an example
-    h = pdk.Layer(  # https://deck.gl/docs/api-reference/aggregation-layers/heatmap-layer
+    heat_layer = pdk.Layer(  # https://deck.gl/docs/api-reference/aggregation-layers/heatmap-layer
         "HeatmapLayer",
         cells_df,
         radiusPixels=125,
         opacity=0.3,
         get_position=["longitude", "latitude"],
-        #aggregation=pdk.types.String("MEAN"),
         threshold=0.1,
         get_weight="total_score",
         pickable=True, )
-    layer.append(h)
+    layer.append(heat_layer)
 
-    for x in amenities2:
-        x = pdk.Layer(
+    for amenity_layer in amenities:
+        amenity_layer = pdk.Layer(
             "ScatterplotLayer",
-            data=dfcsv[dfcsv["amenity"] == x],
-            # subsetting the dataframe to only use the x amenity, it is repeated until all unique values of the dataframe column amenities are used
+            data=dfcsv[dfcsv["amenity"] == amenity_layer],
             get_position=["longitude", "latitude"],
-            # pdk.layer needs the column names of the dataframe where the positions are written down
-            get_color=[0, 0, 0, 1000],  # https://rgbacolorpicker.com/
+            get_color=[0, 0, 0, 1000],
             get_radius=200,
             radius_scale=0.05, )
-        layer.append(x)
-    p = pdk.Layer(  # we need an extra layer for displaying the users home
+        layer.append(amenity_layer)
+    user_home = pdk.Layer(
         "ScatterplotLayer",
-        data=df1[df1["amenity"] == "user_home"],  # subsetting the dataframe to only use the specific amenity user_home
+        data=df1[df1["amenity"] == "user_home"],
         get_position=["longitude", "latitude"],
-        get_color=[185, 207, 234, 150],  # https://rgbacolorpicker.com/
-        get_radius=600, #realistic value is 730
-        radius_scale=1.05, )
-    layer.append(p)
+        get_color=[185, 207, 234, 150],
+        get_radius=600,
+        radius_scale=1.05,)
+    layer.append(user_home)
 
     st.pydeck_chart(pdk.Deck(map_style="mapbox://styles/mapbox/light-v9",
                              initial_view_state={"latitude": 51.24, "longitude": 6.85, "zoom": 11, "pitch": 50},
@@ -144,21 +140,21 @@ user_address = address()
 
 if st.button("Create Map"):
     cells_df = pd.read_csv("cells_df.csv")
-    amenities2_df = pd.DataFrame(amenities2)
+    amenities_df = pd.DataFrame(amenities)
     slider_values_df = pd.DataFrame(slider_values)
-    amenities2_df.insert(1, "weight", slider_values_df, True)
-    #amenities2_df.to_csv("amenities_weights.csv")
+    amenities_df.insert(1, "weight", slider_values_df, True)
+    #amenities_df.to_csv("amenities_weights.csv")
     #user_address.to_csv("user_address.csv")
     cells_df["total_score"] = 0
-    for x in individual_values:
-        y1 = amenities2_df[amenities2_df[0] == x]
-        y2 = y1["weight"].values
-        if y2 > 0:
-            y3 = y2
+    for amenity in individual_values:
+        weight_df = amenities_df[amenities_df[0] == amenity]
+        weight_raw = weight_df["weight"].values
+        if weight_raw > 0:
+            weight = weight_raw
         else:
-            y3 = 0
-        y4 = cells_df[x].astype(int) * y3
-        cells_df["total_score"] = cells_df["total_score"] + y4
-    map(amenities2)
+            weight = 0
+        weight = cells_df[amenity].astype(int) * weight
+        cells_df["total_score"] = cells_df["total_score"] + weight
+    map(amenities)
 
 
