@@ -1,4 +1,4 @@
-#The openstreetmaps_query is used to gather data from openstreetmaps about amenities in a certain area.
+#The openstreetmaps_query is used to gather data from openstreetmaps about amenities in a certain area. This is only used
 import overpy
 import pandas as pd
 import time
@@ -44,7 +44,7 @@ def data_prep(df):
 amenities = ["hospital","dentist","pharmacy","school","kindergarten","library","university","bar","cafe","bicycle_repair_station","cinema","public_bppl"]
 
 #the function "query" provides only one amenitiy on each request, therefore we need a loop to repeat it for each amenity we are interested in
-df1 = pd.Series([""]) #empty series to use "concat" in the for loop
+df1 = pd.Series([""])
 for x in amenities:
     df2= pd.Series([""])
     df2 = data_prep(query(x))
@@ -52,9 +52,8 @@ for x in amenities:
     df1 = pd.concat([df1,df2])
     time.sleep(60) #sleep timer to avoid "too many requests at the server"
 
-
+#creation of amenities_df, this dataframe is used in the 15minapp later
 amenities_df = df1[["amenity","latitude","longitude"]]
 amenities_df = amenities_df.iloc[1:,:]
 amenities_df.set_index("amenity",inplace=True)
-print(amenities_df)
 amenities_df.to_csv("amenities_df.csv")
