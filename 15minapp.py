@@ -4,6 +4,7 @@ from geopy.geocoders import Nominatim
 import pandas as pd
 import numpy as np
 
+# Creates a grid. Grid points consist out of longitude and latitude information. Distance between grid points = d. Amenities within a radius (r) of each grid point are assigned to each grid point and saved in a dictionary.
 def precompute_grid(csv_path, begin_lat, end_lat, begin_long, end_long, d, r):
     places = pd.read_csv(csv_path)
 
