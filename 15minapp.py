@@ -51,7 +51,8 @@ Long2 = 6.94
 
 d = 0.001
 r = 0.01  # should be 1km
-###KEEP! IMPORTANT FOR CREATING A NEW GRID WITH MORE AMENITIES###
+
+#connection to openstreetmaps_query.py read in of dflong_output.csv (cointains all amenities)
 file_path = 'dflong_output.csv'
 cells = precompute_grid(file_path, Lat1, Lat2, Long1, Long2, d, r)
 cells_df = pd.DataFrame.from_dict(cells, orient = "index")
