@@ -163,17 +163,3 @@ if st.button("Create Map"):
     st.write(cells_df)
 
 
-#improvements
-#higher density of grid points
-#adjustable distance(bike, 2km, by feet 1km..)
-#integrate public transporation with highe distances
-#create scores, additional information, opitmal locations
-#more detail, more amenities, better personalization, more options
-#changeable preselection
-#hover over points show amenity type
-#testing
-#use str + r
-#markdown file
-#requerements
-#code cleaing
-
