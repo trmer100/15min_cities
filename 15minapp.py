@@ -52,7 +52,7 @@ def precompute_grid(csv_path, begin_lat, end_lat, begin_long, end_long, d, r):
 #d = 0.001
 #r = 0.01  # should be 1km
 
-#connection to openstreetmaps_query.py read in of amenities_df.csv (cointains all amenities)
+#connection to openstreetmaps_query.py read in of amenities_df.csv (cointains all amenities). 
 #file_path = 'amenities_df.csv'
 #cells = precompute_grid(file_path, Lat1, Lat2, Long1, Long2, d, r)
 #cells_df = pd.DataFrame.from_dict(cells, orient = "index")
