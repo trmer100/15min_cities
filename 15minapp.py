@@ -99,6 +99,9 @@ def map(amenities):
 
 
 def address():
+    """this function translates the address of the user which is inserted in the 15minapp
+    by the user into coordinates in order to display these on the map
+    """
     geolocator = Nominatim(
         user_agent="my_user_agent"
     )
@@ -120,7 +123,7 @@ if __name__ == "__main__":
         Long1 = 6.6824
         Long2 = 6.94
         d = 0.001
-        r = 0.01  # should be 1km
+        r = 0.01
 
 
         file_path = "amenities_df.csv"
