@@ -1,4 +1,4 @@
-#The openstreetmaps_query is used to gather data from openstreetmaps about amenities in a certain area. This is only used
+#The openstreetmaps_query is used to gather data from openstreetmaps about amenities in a certain area. This is only used once per month.
 import overpy
 import pandas as pd
 import time
