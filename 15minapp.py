@@ -53,14 +53,14 @@ d = 0.001
 r = 0.01  # should be 1km
 
 #connection to openstreetmaps_query.py read in of amenities_df.csv (cointains all amenities)
-file_path = 'amenities_df.csv'
-cells = precompute_grid(file_path, Lat1, Lat2, Long1, Long2, d, r)
-cells_df = pd.DataFrame.from_dict(cells, orient = "index")
-pd.DataFrame.reset_index(cells_df, inplace = True)
-pd.DataFrame.rename(cells_df,columns={'level_0': 'latitude', 'level_1': 'longitude'}
-,inplace = True)
-cells_df.fillna(value = 0,inplace = True)
-cells_df.to_csv("cells_df.csv")
+#file_path = 'amenities_df.csv'
+#cells = precompute_grid(file_path, Lat1, Lat2, Long1, Long2, d, r)
+#cells_df = pd.DataFrame.from_dict(cells, orient = "index")
+#pd.DataFrame.reset_index(cells_df, inplace = True)
+#pd.DataFrame.rename(cells_df,columns={'level_0': 'latitude', 'level_1': 'longitude'}
+#,inplace = True)
+#cells_df.fillna(value = 0,inplace = True)
+#cells_df.to_csv("cells_df.csv")
 
 
 st.title("15-Minute-City")
@@ -160,6 +160,5 @@ if st.button("Create Map"):
         y4 = cells_df[x].astype(int) * y3
         cells_df["total_score"] = cells_df["total_score"] + y4
     map(amenities2)
-    st.write(cells_df)
 
 
