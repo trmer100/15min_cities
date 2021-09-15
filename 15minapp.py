@@ -53,7 +53,7 @@ d = 0.001
 r = 0.01  # should be 1km
 
 #connection to openstreetmaps_query.py read in of dflong_output.csv (cointains all amenities)
-file_path = 'dflong_output.csv'
+file_path = 'amenities_df.csv'
 cells = precompute_grid(file_path, Lat1, Lat2, Long1, Long2, d, r)
 cells_df = pd.DataFrame.from_dict(cells, orient = "index")
 pd.DataFrame.reset_index(cells_df, inplace = True)
@@ -65,7 +65,7 @@ cells_df.to_csv("cells_df.csv")
 
 st.title("15-Minute-City")
 st.write("Please insert your address and provide your preferences on the left. When finished, please click the """"Create Map""" "button to show how good your address and the surrounding area fits the 15-minute city approach!")
-dfcsv = pd.read_csv("dflong_output.csv")  # import dataframe from github
+dfcsv = pd.read_csv("amenities_df.csv")  # import dataframe from github
 
 
 individual_values = dfcsv[
@@ -174,6 +174,5 @@ if st.button("Create Map"):
 #testing
 #use str + r
 #markdown file
-#requerements
 #code cleaing
 

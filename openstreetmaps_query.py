@@ -1,36 +1,28 @@
-#run in python console to install overpy package: "pip install requests"
-
+#The openstreetmaps_query is used to gather data from openstreetmaps about amenities in a certain area.
 import overpy
 import pandas as pd
 import time
 
+#this function requests the data for one amenity only in a certain location, the output is one dataframe with the exact locations of a certain amenity
 def query(building_type):
-    part1 = '[out:json][timeout:50];nwr(51.1238, 6.6824,51.3538, 6.9398)[amenity="'
-    part2 = building_type
-    part3 = '"];out center;'
-    built_query = part1 + part2 + part3
-    print(built_query)
-   # UL = ('51.3538', '6.6824')
-   # UR = ('51.3538', '6.9398')
-   # LL = ('51.1238', '6.6824')
-   # LR = ('51.1238', '6.9398')
-
-
-
-    api = overpy.Overpass()  # overpy API
-    result = api.query(built_query)  # API which is send to overpass
-    list_of_node_tags = []  # initializing empty list for data_frame below
-    for node in result.nodes:  # get tags information from each node
+    query_part1 = '[out:json][timeout:50];nwr(51.1238, 6.6824,51.3538, 6.9398)[amenity="'
+    query_part2 = building_type
+    query_part3 = '"];out center;'
+    built_query = query_part1 + query_part2 + query_part3 
+    api = overpy.Overpass()
+    result = api.query(built_query)  
+    list_of_node_tags = []  
+    for node in result.nodes: 
         node.tags['latitude'] = node.lat
         node.tags['longitude'] = node.lon
         node.tags['id'] = node.id
         list_of_node_tags.append(node.tags)
-    for way in result.ways:  # get tags information from each node
+    for way in result.ways:
         way.tags['id'] = way.id
         way.tags['latitude'] = way.center_lat
         way.tags['longitude'] = way.center_lon
         list_of_node_tags.append(way.tags)
-    for relation in result.relations:  # get tags information from each node
+    for relation in result.relations:
         relation.tags['id'] = relation.id
         relation.tags['latitude'] = relation.center_lat
         relation.tags['longitude'] = relation.center_lon
@@ -38,9 +30,8 @@ def query(building_type):
     data_frame = pd.DataFrame(list_of_node_tags)  # forming a pandas dataframe using list of dictionaries
     return data_frame
 
-
+#the returned data_frame from the query needs to be changed in order to use it
 def data_prep(df):
-    #df.set_index("name",inplace=True)
     df_global_reduced= df[["name","latitude","longitude"]]
     df_global_reduced_float = df_global_reduced.copy()
     df_global_reduced_float["latitude"] = df_global_reduced_float["latitude"].astype("float")
@@ -49,35 +40,21 @@ def data_prep(df):
     assert df_global_reduced_float["longitude"].dtype == "float"
     return df_global_reduced_float
 
+#this list can be changed by the user in order gather different amenity types or extend it, to make it more complex, the source for these amenities are: ("https://wiki.openstreetmap.org/wiki/Key:amenity")
 amenities = ["hospital","dentist","pharmacy","school","kindergarten","library","university","bar","cafe","bicycle_repair_station","cinema","public_bppl"]
-#amenities = ["cafe","fast_food"]
-#amenities = ["hospital","school","kindergarten"]
 
-dfObj = [] #empty df which is used for storing the data from the for loop below
+#the function "query" provides only one amenitiy on each request, therefore we need a loop to repeat it for each amenity we are interested in
 df1 = pd.Series([""]) #empty series to use "concat" in the for loop
 for x in amenities:
     df2= pd.Series([""])
     df2 = data_prep(query(x))
     df2["amenity"] = pd.Series([x for g in range(len(df2.index))])
-    print(df2)
     df1 = pd.concat([df1,df2])
     time.sleep(60) #sleep timer to avoid "too many requests at the server"
 
 
-dfshort = df1[["amenity","latitude","longitude"]]
-dfshort = dfshort.iloc[1:,:]
-
-dfshort.set_index("amenity",inplace=True)
-print(dfshort)
-
-#dfshort.to_csv(r'C:\Users\pmard\Desktop\TEST OUTPUT\dfshort_output.csv')
-#dfshort.to_csv("dfshort_output.csv")
-dfshort.to_csv("dflong_output.csv")
-#dfsoloa = dfshort.filter(like="hospital",axis = 0)
-#dfsolob = dfshort.filter(like="school",axis = 0)
-#dfsoloa = dfshort[["hospital"]]
-#dfsolob = dfshort[["school"]]
-#print(dfsoloa)
-#print(dfsolob)
-#dfsoloa.to_csv("output_dfsoloa.csv")
-#dfsolob.to_csv("output_dfsolob.csv")
+amenities_df = df1[["amenity","latitude","longitude"]]
+amenities_df = amenities_df.iloc[1:,:]
+amenities_df.set_index("amenity",inplace=True)
+print(amenities_df)
+amenities_df.to_csv("amenities_df.csv")
