@@ -12,9 +12,7 @@ def query(building_type="hospital"):
     the output is one dataframe with the exact locations of a certain amenity
     return: ...#docstringsexampel
     """
-    query_part1 = (
-        '[out:json][timeout:50];nwr(51.1238, 6.6824,51.3538, 6.9398)[amenity="'
-    )
+    query_part1 = '[out:json][timeout:50];nwr(51.1238, 6.6824,51.3538, 6.9398)[amenity="'
     query_part2 = building_type
     query_part3 = '"];out center;'
     built_query = query_part1 + query_part2 + query_part3
@@ -36,9 +34,7 @@ def query(building_type="hospital"):
         relation.tags["latitude"] = relation.center_lat
         relation.tags["longitude"] = relation.center_lon
         list_of_node_tags.append(relation.tags)
-    data_frame = pd.DataFrame(
-        list_of_node_tags
-    )
+    data_frame = pd.DataFrame(list_of_node_tags)
     return data_frame
 
 
@@ -76,6 +72,7 @@ if __name__ == "__main__":
     #change variables
     # the function "query" provides only one amenitiy on each request,
     # therefore we need a loop to repeat it for each amenity we are interested in
+    dfObj = []
     df1 = pd.Series([""])
     for x in amenities:
         df2 = pd.Series([""])
@@ -89,6 +86,10 @@ if __name__ == "__main__":
     amenities_df = amenities_df.iloc[1:, :]
     amenities_df.set_index("amenity", inplace=True)
     amenities_df.to_csv("amenities_df.csv")
+
+
+
+
 
 
     # linter black

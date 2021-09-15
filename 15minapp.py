@@ -75,7 +75,7 @@ def map(amenities):
         layer.append(amenity_layer)
     user_home = pdk.Layer(
         "ScatterplotLayer",
-        data=df1[df1["amenity"] == "user_home"],
+        data=user_address[user_address["amenity"] == "user_home"],
         get_position=["longitude", "latitude"],
         get_color=[185, 207, 234, 150],
         get_radius=600,
@@ -101,9 +101,8 @@ def map(amenities):
 def address():
     geolocator = Nominatim(
         user_agent="my_user_agent"
-    )  # this and the line below will return the coordinates after providing an address in a certain format
+    )
     loc = geolocator.geocode(full_address)
-    # st.write("latitude:" ,loc.latitude,"\nlongtitude:" ,loc.longitude)
     return pd.DataFrame(
         {
             "amenity": ["user_home"],
@@ -114,7 +113,7 @@ def address():
 
 
 if __name__ == "__main__":
-
+    #this part below should only be used once per month in order to recreate the grid
     if len(sys.argv) > 1 and sys.argv[1] == "run_grid":
         Lat1 = 51.1238
         Lat2 = 51.3539
@@ -123,9 +122,10 @@ if __name__ == "__main__":
         d = 0.001
         r = 0.01  # should be 1km
 
-        # connection to openstreetmaps_query.py read in of amenities_df.csv (cointains all amenities).
+
         file_path = "amenities_df.csv"
         cells = precompute_grid(file_path, Lat1, Lat2, Long1, Long2, d, r)
+        print("New Grid calculated")
         cells_df = pd.DataFrame.from_dict(cells, orient="index")
         pd.DataFrame.reset_index(cells_df, inplace=True)
         pd.DataFrame.rename(
@@ -159,7 +159,7 @@ if __name__ == "__main__":
 
     user_street = st.text_input(
         "Street", "Königsallee"
-    )  # st.text_input returns the input of the user to a variable, in this case user_street, "Königsallee" is the default value here
+    )
     user_street_number = st.text_input("House number", "1")
     user_city = st.text_input("City", "Düsseldorf")
     user_country = "DE"
@@ -173,18 +173,15 @@ if __name__ == "__main__":
         + user_country
     )
 
-    df1 = pd.DataFrame(
+    user_address = pd.DataFrame(
         address()
-    )  # assigning the address to df1 in order to use it in the function map()
-    user_address = address()
+    )
 
     if st.button("Create Map"):
         cells_df = pd.read_csv("cells_df.csv")
         amenities_df = pd.DataFrame(amenities)
         slider_values_df = pd.DataFrame(slider_values)
         amenities_df.insert(1, "weight", slider_values_df, True)
-        # amenities_df.to_csv("amenities_weights.csv")
-        # user_address.to_csv("user_address.csv")
         cells_df["total_score"] = 0
         for amenity in individual_values:
             weight_df = amenities_df[amenities_df[0] == amenity]
