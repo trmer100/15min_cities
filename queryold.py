@@ -51,10 +51,8 @@ def data_prep(df):
 
 
 if __name__ == "__main__":
-    #amenities = ["hospital", "dentist", "pharmacy", "school", "kindergarten", "library", "university", "bar", "cafe",
-    #"bicycle_repair_station", "cinema", "public_bppl"]
-    amenities = ["cafe", "fast_food","cinema","school"]
-
+    amenities = ["hospital", "dentist", "pharmacy", "school", "kindergarten", "library", "university", "bar", "cafe",
+                 "cinema", "fast_food"]
     amenities_raw = pd.Series([""])
     for amenity in amenities:
         storage_df = pd.Series([""])

@@ -196,5 +196,5 @@ if __name__ == "__main__":
             weight = cells_df[amenity].astype(int) * weight
             cells_df["total_score"] = cells_df["total_score"] + weight
         map(amenities)
-
+        st.write(cells_df)
     # remove files. gitignore
