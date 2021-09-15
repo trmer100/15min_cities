@@ -44,6 +44,7 @@ def precompute_grid(csv_path, begin_lat, end_lat, begin_long, end_long, d, r):
                         break
     return cells
 
+#corner points of Düsseldorf
 Lat1 = 51.1238
 Lat2 = 51.3539
 Long1 = 6.6824
