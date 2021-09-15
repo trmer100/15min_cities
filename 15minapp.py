@@ -62,7 +62,7 @@ r = 0.01  # should be 1km
 #cells_df.fillna(value = 0,inplace = True)
 #cells_df.to_csv("cells_df.csv")
 
-
+#Start with the app. Gets the information from cells_df.csv
 st.title("15-Minute-City")
 st.write("Please insert your address and provide your preferences on the left. When finished, please click the """"Create Map""" "button to show how good your address and the surrounding area fits the 15-minute city approach!")
 dfcsv = pd.read_csv("amenities_df.csv")  # import dataframe from github
