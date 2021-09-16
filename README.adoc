@@ -5,7 +5,7 @@ Group 4 (Jan Klüwer, Markus Maas Philipp Marder, Tristan Mertins & mentor Romai
 == Instructions
 .Steps to execute
 . Download our repository
-Run openstreetmaps_query.py this might take around 15 minutes, you can adjust the requested amenities with the variable "amenities". This step should only be done once per month.
+Run openstreetmaps_query.py this might take around 15 minutes, you can adjust the requested amenities with the variable "amenities". This step should only be done once per month. (if this takes too long, just contact us and we can provide the dataset)
 . Open 15minapp.py_ in your IDE (e.g. PyCharm) and run the file with the argument 1 in order to create the basic grid.
     This step only needs to be done once per month. In all other cases the argument should be 0.
 . The Python Console should print out a command like the following: +
