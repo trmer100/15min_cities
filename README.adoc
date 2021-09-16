@@ -3,18 +3,18 @@
 Group 4 (Jan Klüwer, Markus Maas Philipp Marder, Tristan Mertins & mentor Romain Deschamps)
 
 == Instructions
--Steps to execute
--Download our repository
--Run openstreetmaps_query.py this might take around 15 minutes, you can adjust the requested amenities with the variable "amenities". This step should only be done once per month.
--Open 15minapp.py_ in your IDE (e.g. PyCharm) and run the file with the argument 1 in order to create the basic grid.
+Steps to execute
+Download our repository#
+Run openstreetmaps_query.py this might take around 15 minutes, you can adjust the requested amenities with the variable "amenities". This step should only be done once per month.
+Open 15minapp.py_ in your IDE (e.g. PyCharm) and run the file with the argument 1 in order to create the basic grid.
     This step only needs to be done once per month. In all other cases the argument should be 0.
--The Python Console should print out a command like the following: +
+The Python Console should print out a command like the following: +
 _streamlit run C:/Users/trist/PycharmProjects/15min_cities/15minapp.py_ +
--Copy this command, paste it into your Terminal and press enter.
--The Terminal will generate a Local URL which should automatically open in your browser. If not copy it and open the URL manually.
--Welcome to our app. On the left site of the page you can choose your preferences. Tick your favorite facilities/ amenities and use the scale to determine how important they are to you.
--Now type in the address to be viewed and click on _Create Map_
--You should see all amenities of your interest on a heatmap and a 15-minute radius starting from your entered location
+Copy this command, paste it into your Terminal and press enter.
+The Terminal will generate a Local URL which should automatically open in your browser. If not copy it and open the URL manually.
+Welcome to our app. On the left site of the page you can choose your preferences. Tick your favorite facilities/ amenities and use the scale to determine how important they are to you.
+Now type in the address to be viewed and click on _Create Map_
+You should see all amenities of your interest on a heatmap and a 15-minute radius starting from your entered location
  
 
 All the versions we used are written down in _requirements.txt_
